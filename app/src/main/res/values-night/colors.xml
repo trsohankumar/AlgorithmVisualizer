@@ -7,12 +7,12 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="textColor">#FF000000</color>
-    <color name="imageColor">#FF000000</color>
-    <color name ="cardBackground">#FFFFFFFF</color>
-    <color name="backgroundColor">#E6E6E6</color>
-    <color name="codeBackgroundColor">#000000</color>
-    <color name="splashLogoColor">#FF000000</color>
-    <color name="splashLogoColorBackground">#FFFFFFFF</color>
+    <color name ="cardBackground">#FF000000</color>
+    <color name ="imageColor">#FFFFFFFF</color>
+    <color name ="textColor">#FFFFFFFF</color>
+    <color name="backgroundColor">#2C2929</color>
+    <color name="codeBackgroundColor">#ebeaea</color>
+    <color name="splashLogoColor">#FFFFFFFF</color>
+    <color name="splashLogoColorBackground">#FF000000</color>
 
 </resources>

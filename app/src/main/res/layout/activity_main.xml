@@ -17,7 +17,7 @@
         app:cardCornerRadius="12dp"
         app:cardElevation="5dp"
         android:layout_marginBottom="25dp"
-        android:backgroundTint="@color/black"
+        android:backgroundTint="@color/cardBackground"
 
         >
         <LinearLayout
@@ -32,13 +32,13 @@
                 android:layout_height="60dp"
 
                 android:src="@drawable/ic_finish"
-                app:tint="@color/white" />
+                app:tint="@color/imageColor" />
 
 
             <View
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
-                android:background="@color/white"
+                android:background="@color/textColor"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="20dp"
@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:text="PATHFINDING VISUALIZER"
-                android:textColor="@color/white"
+                android:textColor="@color/textColor"
                 android:textSize="25dp"
                 android:textStyle="bold" />
 
@@ -67,7 +67,7 @@
         app:cardCornerRadius="12dp"
         app:cardElevation="10dp"
         android:layout_marginBottom="25dp"
-        android:backgroundTint="@color/black"
+        android:backgroundTint="@color/cardBackground"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -80,13 +80,13 @@
                 android:layout_width="70dp"
                 android:layout_height="60dp"
                 android:src="@drawable/ic_baseline_sort_24"
-                app:tint="@color/white"
+                app:tint="@color/imageColor"
                 />
 
             <View
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
-                android:background="@color/white"
+                android:background="@color/textColor"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="20dp"
@@ -98,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:text="SORTING VISUALIZER"
                 android:fontFamily="@font/roboto"
-                android:textColor="@color/white"
+                android:textColor="@color/textColor"
                 android:textStyle="bold"
                 android:textSize="25dp"/>
 
@@ -115,7 +115,7 @@
         app:cardCornerRadius="12dp"
         app:cardElevation="10dp"
         android:layout_marginBottom="25dp"
-        android:backgroundTint="@color/black"
+        android:backgroundTint="@color/cardBackground"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -128,13 +128,13 @@
                 android:layout_width="70dp"
                 android:layout_height="60dp"
                 android:src="@drawable/ic_baseline_info_24"
-                app:tint="@color/white"
+                app:tint="@color/imageColor"
                 />
 
             <View
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
-                android:background="@color/white"
+                android:background="@color/textColor"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="20dp"
@@ -146,7 +146,7 @@
                 android:layout_height="wrap_content"
                 android:text="ALGO INFORMATION"
                 android:fontFamily="@font/roboto"
-                android:textColor="@color/white"
+                android:textColor="@color/textColor"
                 android:textStyle="bold"
                 android:textSize="25dp"/>
 
@@ -163,7 +163,7 @@
         app:cardCornerRadius="12dp"
         app:cardElevation="10dp"
         android:layout_marginBottom="25dp"
-        android:backgroundTint="@color/black"
+        android:backgroundTint="@color/cardBackground"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -176,13 +176,13 @@
                 android:layout_width="70dp"
                 android:layout_height="60dp"
                 android:src="@drawable/ic_baseline_text_fields_24"
-                app:tint="@color/white"
+                app:tint="@color/imageColor"
                 />
 
             <View
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
-                android:background="@color/white"
+                android:background="@color/textColor"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="20dp"
@@ -192,7 +192,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="TEXT PRETTIER"
-                android:textColor="@color/white"
+                android:textColor="@color/textColor"
                 android:fontFamily="@font/roboto"
                 android:textSize="25dp"
                 android:textStyle="bold"/>
