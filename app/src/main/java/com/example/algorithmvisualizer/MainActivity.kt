@@ -13,16 +13,7 @@ class MainActivity : AppCompatActivity() {
         setTheme(R.style.Theme_NoActionBar)
         setContentView(R.layout.activity_main)
         
-
-
-        modeImage.setOnClickListener(View.OnClickListener {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-
-        })
-
-
-
-        /*val appSettingPrefs:SharedPreferences=getSharedPreferences("AppSettingPrefs",0)
+        val appSettingPrefs:SharedPreferences=getSharedPreferences("AppSettingPrefs",0)
         val sharedPrefsEdit:SharedPreferences.Editor=appSettingPrefs.edit()
         val isNightModeOn:Boolean=appSettingPrefs.getBoolean("NightMode",false)
 
@@ -50,7 +41,7 @@ class MainActivity : AppCompatActivity() {
                             .MODE_NIGHT_NO);
                 sharedPrefsEdit.putBoolean("NightMode",false)
                 sharedPrefsEdit.apply()
-                switchMode.text="Light"
+
             }
             else
             {
@@ -58,12 +49,12 @@ class MainActivity : AppCompatActivity() {
                     .setDefaultNightMode(
                         AppCompatDelegate
                             .MODE_NIGHT_YES);
-                sharedPrefsEdit.putBoolean("NightMode",false)
+                sharedPrefsEdit.putBoolean("NightMode",true)
                 sharedPrefsEdit.apply()
-                switchMode.text="Dark"
+
             }
         })
 
-*/
+
     }
 }
