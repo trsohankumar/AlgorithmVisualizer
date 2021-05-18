@@ -5,13 +5,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
-import kotlinx.android.synthetic.main.activity_main.*
+import com.example.algorithmvisualizer.databinding.ActivityMainBinding
+
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding:ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTheme(R.style.Theme_NoActionBar)
-        setContentView(R.layout.activity_main)
+        binding =ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
         
         val appSettingPrefs:SharedPreferences=getSharedPreferences("AppSettingPrefs",0)
         val sharedPrefsEdit:SharedPreferences.Editor=appSettingPrefs.edit()
@@ -32,7 +35,7 @@ class MainActivity : AppCompatActivity() {
                     AppCompatDelegate
                         .MODE_NIGHT_NO);
         }
-        modeImage.setOnClickListener(View.OnClickListener {
+        binding.modeImage.setOnClickListener(View.OnClickListener {
             if(isNightModeOn)
             {
                 AppCompatDelegate
