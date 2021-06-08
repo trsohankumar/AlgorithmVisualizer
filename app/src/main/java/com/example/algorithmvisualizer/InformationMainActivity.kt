@@ -23,13 +23,7 @@ class InformationMainActivity : AppCompatActivity() {
                 startActivity(it);
             }
         }
-        binding.greedy.setOnClickListener{
-            sendProps="greedy"
-            Intent(this,InformationSpecific::class.java).also{
-                it.putExtra("EXTRA_PROPS",sendProps)
-                startActivity(it);
-            }
-        }
+
         binding.astar.setOnClickListener{
             sendProps="astar"
             Intent(this,InformationSpecific::class.java).also{
