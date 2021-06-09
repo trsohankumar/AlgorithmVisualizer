@@ -1,5 +1,6 @@
 package com.example.algorithmvisualizer
 
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -58,6 +59,10 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-
+        binding.cardView13.setOnClickListener{
+            Intent(this,InformationMainActivity::class.java).also{
+                startActivity(it)
+            }
+        }
     }
 }
