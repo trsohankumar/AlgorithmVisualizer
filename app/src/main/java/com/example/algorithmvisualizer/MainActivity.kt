@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        binding.cardView13.setOnClickListener{
+        binding.cvAlgoInformation.setOnClickListener{
             Intent(this,InformationMainActivity::class.java).also{
                 startActivity(it)
             }

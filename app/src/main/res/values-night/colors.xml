@@ -11,8 +11,10 @@
     <color name ="imageColor">#FFFFFFFF</color>
     <color name ="textColor">#FFFFFFFF</color>
     <color name="backgroundColor">#2C2929</color>
-    <color name="codeBackgroundColor">#ebeaea</color>
     <color name="splashLogoColor">#FFFFFFFF</color>
     <color name="splashLogoColorBackground">#FF000000</color>
-
+    <color name="toolBarColor">#000000</color>
+    <color name="toolBarButtonColor">#FFFFFFFF</color>
+    <color name="codeColor">#BFBBBB</color>
+    <color name="codeBackgroundColor">#000000</color>
 </resources>

@@ -4,41 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
     tools:context=".InformationSpecific">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_width="fill_parent"
-        android:layout_height="100dp"
-        app:cardBackgroundColor="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/roboto"
-                android:paddingLeft="25dp"
-                android:paddingTop="20dp"
-                android:paddingBottom="10dp"
-                android:text="Title"
-                android:textColor="#FFFFFF"
-                android:textSize="48dp"
-                android:textStyle="bold"
-                tools:layout_conversion_absoluteHeight="64dp"
-                tools:layout_conversion_absoluteWidth="93dp"
-                tools:layout_editor_absoluteX="0dp"
-                tools:layout_editor_absoluteY="0dp" />
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbAlgoInformationSpecific"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:background="@color/toolBarColor"
+        app:title="Algorithm Information"
+        app:titleTextColor="@color/textColor"
+        android:theme="@style/ToolbarTheme" />
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -50,7 +29,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/backgroundColor"
             android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ALgoName"
+                android:textStyle="bold"
+                android:textSize="50sp"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/textColor"/>
 
             <TextView
                 android:id="@+id/scrollableText"
@@ -59,22 +49,24 @@
                 android:fontFamily="@font/roboto"
                 android:padding="20dp"
                 android:text='Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.'
-                android:textColor="#000000"
+                android:textColor="@color/textColor"
                 android:textSize="24dp" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="#EBEBEA"
+                app:cardBackgroundColor="@color/codeBackgroundColor"
                 app:cardCornerRadius="50dp"
                 tools:layout_editor_absoluteY="531dp">
 
                 <TextView
+                    android:layout_marginTop="10dp"
                     android:id="@+id/codeText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="20dp"
-                    android:paddingTop="10dp"
+                    android:paddingTop="15dp"
+                    android:textColor="@color/codeColor"
                     android:text='class ShortestPath {\n static final int V = 9;\nint minDistance(int dist[], Boolean sptSet[])       }'
                     android:textSize="20dp" />
             </androidx.cardview.widget.CardView>

@@ -4,7 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:backgroundTint="@color/backgroundColor"
     android:background="@color/black">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbAlgoInformation"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:background="@color/toolBarColor"
+        app:title="Algorithm Information"
+        app:titleTextColor="@color/textColor"
+        android:theme="@style/ToolbarTheme" />
 
     <TextView
         android:id="@+id/heading"
@@ -13,12 +27,12 @@
         android:layout_marginTop="44dp"
         android:fontFamily="@font/roboto"
         android:text="INFORMATION"
-        android:textColor="#FFFFFF"
-        android:textSize="48dp"
+        android:textColor="@color/textColor"
+        android:textSize="48sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/tbAlgoInformation" />
 
     <TextView
         android:id="@+id/dijkstra"
@@ -26,11 +40,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginLeft="50dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="50dp"
         android:fontFamily="@font/roboto"
         android:text="Dijkstra's Algorithm"
-        android:textColor="#FFFFFF"
-        android:textSize="24dp"
+        android:textColor="@color/textColor"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/heading" />
@@ -43,8 +57,8 @@
         android:layout_marginLeft="50dp"
         android:layout_marginTop="10dp"
         android:text="A* Algorithm"
-        android:textColor="#FFFFFF"
-        android:textSize="24dp"
+        android:textColor="@color/textColor"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dijkstra" />
@@ -58,8 +72,8 @@
         android:layout_marginTop="10dp"
         android:fontFamily="@font/roboto"
         android:text="Breadth First Search"
-        android:textColor="#FFFFFF"
-        android:textSize="24dp"
+        android:textColor="@color/textColor"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/astar" />
@@ -73,8 +87,8 @@
         android:layout_marginTop="10dp"
         android:fontFamily="@font/roboto"
         android:text="Depth First Search"
-        android:textColor="#FFFFFF"
-        android:textSize="24dp"
+        android:textColor="@color/textColor"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bfs" />
@@ -88,8 +102,8 @@
         android:layout_marginTop="10dp"
         android:fontFamily="@font/roboto"
         android:text="Bubble Sort"
-        android:textColor="#FFFFFF"
-        android:textSize="24dp"
+        android:textColor="@color/textColor"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dfs" />
@@ -103,8 +117,8 @@
         android:layout_marginTop="10dp"
         android:fontFamily="@font/roboto"
         android:text="Quick Sort"
-        android:textColor="#FFFFFF"
-        android:textSize="24dp"
+        android:textColor="@color/textColor"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bubblesort" />
@@ -118,8 +132,8 @@
         android:layout_marginTop="10dp"
         android:fontFamily="@font/roboto"
         android:text="Selection Sort"
-        android:textColor="#FFFFFF"
-        android:textSize="24dp"
+        android:textColor="@color/textColor"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/quicksort" />
@@ -133,8 +147,8 @@
         android:layout_marginTop="10dp"
         android:fontFamily="@font/roboto"
         android:text="Radix Sort"
-        android:textColor="#FFFFFF"
-        android:textSize="24dp"
+        android:textColor="@color/textColor"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/selectionsort" />
@@ -148,8 +162,8 @@
         android:layout_marginTop="10dp"
         android:fontFamily="@font/roboto"
         android:text="Insertion Sort"
-        android:textColor="#FFFFFF"
-        android:textSize="24dp"
+        android:textColor="@color/textColor"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radixsort" />
@@ -163,8 +177,8 @@
         android:layout_marginTop="10dp"
         android:fontFamily="@font/roboto"
         android:text="Heap Sort"
-        android:textColor="#FFFFFF"
-        android:textSize="24dp"
+        android:textColor="@color/textColor"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/insertionsort" />
@@ -177,24 +191,9 @@
         android:layout_marginTop="10dp"
         android:fontFamily="@font/roboto"
         android:text="Merge Sort"
-        android:textColor="#FFFFFF"
-        android:textSize="24dp"
+        android:textColor="@color/textColor"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/heapsort" />
-
-    <Button
-        android:id="@+id/backButton"
-        android:layout_width="80dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="30dp"
-        android:ellipsize="none"
-        android:fontFamily="@font/roboto"
-        android:text="Back"
-        android:textColor="#050505"
-        app:backgroundTint="#FFFFFF"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/heading" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,10 +9,12 @@
     <color name="white">#FFFFFFFF</color>
     <color name="textColor">#FF000000</color>
     <color name="imageColor">#FF000000</color>
-    <color name ="cardBackground">#FFFFFFFF</color>
+    <color name="cardBackground">#FFFFFFFF</color>
     <color name="backgroundColor">#E6E6E6</color>
-    <color name="codeBackgroundColor">#000000</color>
     <color name="splashLogoColor">#FF000000</color>
     <color name="splashLogoColorBackground">#FFFFFFFF</color>
-
+    <color name="toolBarColor">#B8B8B8</color>
+    <color name="codeColor">#3C3939</color>
+    <color name="toolBarButtonColor">#FF000000</color>
+    <color name="codeBackgroundColor">#BCBCB6</color>
 </resources>

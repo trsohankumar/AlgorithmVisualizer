@@ -14,6 +14,14 @@ class InformationSpecific : AppCompatActivity() {
         val view=binding.root
         setContentView(view)
 
+        setSupportActionBar(binding.tbAlgoInformationSpecific)
+        val actionBar = supportActionBar
+        if(actionBar!= null){
+            actionBar.setDisplayHomeAsUpEnabled(true)
+        }
+        binding.tbAlgoInformationSpecific.setNavigationOnClickListener {
+            onBackPressed()
+        }
         val props=intent.getStringExtra("EXTRA_PROPS")
         if(props=="dijkstra") {
             binding.textView.text = "Dijkstra's"

@@ -20,7 +20,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/cardView10"
+        app:layout_constraintBottom_toTopOf="@+id/cvPathFinding"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.304"
@@ -28,12 +28,11 @@
         app:tint="@color/imageColor" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView10"
+        android:id="@+id/cvPathFinding"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
-
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
         android:layout_marginBottom="520dp"
@@ -87,7 +86,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView12"
+        android:id="@+id/cvSortingVisualizer"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginStart="40dp"
@@ -100,7 +99,7 @@
         app:cardElevation="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView10">
+        app:layout_constraintTop_toBottomOf="@+id/cvPathFinding">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -141,7 +140,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView13"
+        android:id="@+id/cvAlgoInformation"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginStart="40dp"
@@ -154,7 +153,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView12"
+        app:layout_constraintTop_toBottomOf="@+id/cvSortingVisualizer"
         app:layout_constraintVertical_bias="0.13">
 
         <LinearLayout
@@ -196,7 +195,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView11"
+        android:id="@+id/cvTextPrettier"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginStart="40dp"
@@ -209,7 +208,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView13"
+        app:layout_constraintTop_toBottomOf="@+id/cvAlgoInformation"
         app:layout_constraintVertical_bias="0.26">
 
         <LinearLayout

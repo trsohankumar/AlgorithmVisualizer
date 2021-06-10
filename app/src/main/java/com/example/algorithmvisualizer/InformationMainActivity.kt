@@ -11,10 +11,19 @@ class InformationMainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityInfoBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+        setContentView(binding.root)
 
         var sendProps: String
+
+        setSupportActionBar(binding.tbAlgoInformation)
+        val actionBar = supportActionBar
+        if(actionBar!= null){
+            actionBar.setDisplayHomeAsUpEnabled(true)
+            //actionBar.setDisplayShowTitleEnabled(false)
+        }
+        binding.tbAlgoInformation.setNavigationOnClickListener {
+            onBackPressed()
+        }
 
         binding.dijkstra.setOnClickListener{
             sendProps="dijkstra"
@@ -94,10 +103,6 @@ class InformationMainActivity : AppCompatActivity() {
                 startActivity(it);
             }
         }
-        binding.backButton.setOnClickListener {
-            finish()
 
-
-        }
     }
 }
