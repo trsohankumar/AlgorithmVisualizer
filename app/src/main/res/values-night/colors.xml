@@ -7,10 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name ="cardBackground">#FF000000</color>
-    <color name ="imageColor">#FFFFFFFF</color>
-    <color name ="textColor">#FFFFFFFF</color>
-    <color name="backgroundColor">#2C2929</color>
+    <color name="headingTextColor">#F93800</color>
+    <color name="cardBackground">#2C2929</color>
+    <color name="imageColor">#FFFFFFFF</color>
+    <color name="textColor">#FFFFFFFF</color>
+    <color name="backgroundColor">#121212</color>
     <color name="splashLogoColor">#FFFFFFFF</color>
     <color name="splashLogoColorBackground">#FF000000</color>
     <color name="toolBarColor">#000000</color>

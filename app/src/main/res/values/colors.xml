@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="textColor">#FF000000</color>
+    <color name="headingTextColor">#FFD55A</color>
     <color name="imageColor">#FF000000</color>
     <color name="cardBackground">#FFFFFFFF</color>
     <color name="backgroundColor">#E6E6E6</color>
