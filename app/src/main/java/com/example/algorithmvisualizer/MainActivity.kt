@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.algorithmvisualizer.databinding.ActivityMainBinding
 
@@ -15,6 +16,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding =ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
+       // window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(view)
         
         val appSettingPrefs:SharedPreferences=getSharedPreferences("AppSettingPrefs",0)
@@ -63,6 +65,10 @@ class MainActivity : AppCompatActivity() {
             Intent(this,InformationMainActivity::class.java).also{
                 startActivity(it)
             }
+        }
+        binding.cvSortingVisualizer.setOnClickListener {
+            val intent = Intent(this,SortingVisualizer::class.java)
+            startActivity(intent)
         }
     }
 }
