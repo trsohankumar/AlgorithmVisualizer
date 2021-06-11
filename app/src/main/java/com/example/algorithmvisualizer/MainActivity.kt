@@ -70,5 +70,9 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this,SortingVisualizer::class.java)
             startActivity(intent)
         }
+        binding.cvNotesSection.setOnClickListener{
+            val intent=Intent(this,Notes::class.java)
+            startActivity(intent)
+        }
     }
 }

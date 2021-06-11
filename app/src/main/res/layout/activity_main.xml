@@ -195,7 +195,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cvTextPrettier"
+        android:id="@+id/cvNotesSection"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginStart="40dp"
@@ -237,7 +237,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
-                android:text="TEXT PRETTIER"
+                android:text="NOTES SECTION"
                 android:textColor="@color/textColor"
                 android:textSize="25dp"
                 android:textStyle="bold" />

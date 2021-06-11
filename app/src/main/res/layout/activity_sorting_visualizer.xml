@@ -63,11 +63,11 @@
             android:id="@+id/tvIntroText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="why don't you start by generating an Array!"
-            android:textSize="22sp"
             android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Why don't you start by generating an Array!"
             android:textColor="@color/textColor"
-            android:paddingRight="20dp" />
+            android:textSize="22sp" />
     </LinearLayout>
 
 
