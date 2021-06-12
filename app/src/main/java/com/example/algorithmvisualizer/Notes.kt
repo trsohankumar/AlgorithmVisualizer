@@ -2,7 +2,7 @@ package com.example.algorithmvisualizer
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.algorithmvisualizer.databinding.ActivityInfoBinding
+import androidx.fragment.app.Fragment
 import com.example.algorithmvisualizer.databinding.ActivityNotesBinding
 
 class Notes : AppCompatActivity() {
@@ -12,17 +12,16 @@ class Notes : AppCompatActivity() {
         binding = ActivityNotesBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
-        setSupportActionBar(binding.tbNotes)
-        val actionBar = supportActionBar
-        if(actionBar!= null){
-            actionBar.setDisplayHomeAsUpEnabled(true)
-            //actionBar.setDisplayShowTitleEnabled(false)
-        }
-        binding.tbNotes.setNavigationOnClickListener {
-            onBackPressed()
-        }
 
 
+
+        //fragment placing
+        val notesFragment=NotesFragment()
+        supportFragmentManager.beginTransaction().apply{
+            replace(R.id.frame_layout,notesFragment)
+
+            commit()
+        }
 
     }
 }
