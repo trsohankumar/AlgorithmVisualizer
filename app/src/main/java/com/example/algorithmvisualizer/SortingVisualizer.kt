@@ -9,7 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.Toast
 import com.example.algorithmvisualizer.databinding.ActivitySortingVisualizerBinding
+import com.example.algorithmvisualizer.databinding.SortingVisualizerBottomSheetBinding
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.*
 
 class SortingVisualizer : AppCompatActivity() {
@@ -51,6 +55,21 @@ class SortingVisualizer : AppCompatActivity() {
             IndigoColor="#293250"
             PurpleColor="#6DD47E"
 
+        }
+
+        binding.btnStart.setOnClickListener{
+            cancelAllJobs()
+            val dialog = BottomSheetDialog(this)
+            var bindingBottomSheet  : SortingVisualizerBottomSheetBinding =
+                SortingVisualizerBottomSheetBinding.inflate(layoutInflater)
+            bindingBottomSheet.btnDismiss.setOnClickListener{
+
+                dialog.dismiss()
+            }
+
+           // dialog.setCancelable(false)
+            dialog.setContentView(bindingBottomSheet.root)
+            dialog.show()
         }
 
         falseJobInit()
