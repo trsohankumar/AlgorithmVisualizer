@@ -81,6 +81,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="1dp"
+        android:paddingLeft="12dp"
+        android:layout_marginBottom="2dp"
         app:layout_constraintBottom_toTopOf="@id/tvGenerateGrid" />
 
 
@@ -90,7 +92,7 @@
         android:id="@+id/tvClear"
         app:layout_constraintTop_toBottomOf="@id/SortingDisplay"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/tvRedo"
+        app:layout_constraintRight_toLeftOf="@+id/ivSort"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -104,8 +106,8 @@
     <TextView
         android:id="@+id/tvRedo"
         app:layout_constraintTop_toBottomOf="@id/SortingDisplay"
-        app:layout_constraintRight_toLeftOf="@+id/tvSort"
-        app:layout_constraintLeft_toRightOf="@+id/tvClear"
+        app:layout_constraintLeft_toRightOf="@+id/ivSort"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -115,19 +117,16 @@
         android:paddingBottom="15dp"
         android:text="REDO"/>
 
-    <TextView
-        android:id="@+id/tvSort"
+    <ImageView
+        android:id="@+id/ivSort"
         app:layout_constraintTop_toBottomOf="@id/SortingDisplay"
-        app:layout_constraintLeft_toRightOf="@+id/tvRedo"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/tvClear"
+        app:layout_constraintRight_toLeftOf="@id/tvRedo"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/ic_algo_play"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/textColor"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:paddingBottom="15dp"
-        android:text="SORT"/>
+        android:textColor="@color/textColor" />
 
     <TextView
         android:id="@+id/tvGenerateGrid"

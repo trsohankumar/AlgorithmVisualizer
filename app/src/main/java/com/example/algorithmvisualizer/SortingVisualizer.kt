@@ -2,23 +2,20 @@ package com.example.algorithmvisualizer
 
 import android.content.SharedPreferences
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.Toast
+import android.widget.*
+import android.widget.AdapterView.OnItemClickListener
+import androidx.appcompat.app.AppCompatActivity
 import com.example.algorithmvisualizer.databinding.ActivitySortingVisualizerBinding
 import com.example.algorithmvisualizer.databinding.SortingVisualizerBottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.*
+
 
 class SortingVisualizer : AppCompatActivity() {
     private lateinit var binding:ActivitySortingVisualizerBinding
-    lateinit var jobBubbleSort: Job
     private var size:Int = 10
     private val buttons: MutableList<MutableList<Button>> = ArrayList()
     var arrayToBeSorted: MutableList<Int> = ArrayList()
@@ -27,6 +24,9 @@ class SortingVisualizer : AppCompatActivity() {
     private var PurpleColor:String = "#283350"
     private var backGroundColor:String = "#121212"
     private var textColor:String= "#FFFFFFFF"
+    private val sortingList = listOf<String>("Bubble Sort","Selection Sort","Insertion Sort","Merge Sort","Quick Sort")
+    lateinit var jobBubbleSort: Job
+    lateinit var jobSelectionSort:Job
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivitySortingVisualizerBinding.inflate(layoutInflater)
@@ -45,9 +45,7 @@ class SortingVisualizer : AppCompatActivity() {
         }
 
         val appSettingPrefs: SharedPreferences =getSharedPreferences("AppSettingPrefs",0)
-     //   val sharedPrefsEdit: SharedPreferences.Editor=appSettingPrefs.edit()
         val isNightModeOn:Boolean=appSettingPrefs.getBoolean("NightMode",false)
-       // Log.d("Night Mode one", isNightModeOn.toString())
         if(!isNightModeOn){
             backGroundColor = "#E6E6E6"
             textColor="#FF000000"
@@ -59,23 +57,46 @@ class SortingVisualizer : AppCompatActivity() {
 
         binding.btnStart.setOnClickListener{
             cancelAllJobs()
+            //code to display the Bottom Sheet
             val dialog = BottomSheetDialog(this)
-            var bindingBottomSheet  : SortingVisualizerBottomSheetBinding =
-                SortingVisualizerBottomSheetBinding.inflate(layoutInflater)
+            var bindingBottomSheet  : SortingVisualizerBottomSheetBinding = SortingVisualizerBottomSheetBinding.inflate(layoutInflater)
+            dialog.setContentView(bindingBottomSheet.root)
+            dialog.show()
+
+            //code to send the values to the adapter
+            val adapter = ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,sortingList)
+            bindingBottomSheet.sortingSelector.adapter = adapter
+
+
+            //Code to get the current selected sorting algorithm
+            bindingBottomSheet.sortingSelector.onItemSelectedListener = object:AdapterView.OnItemSelectedListener{
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    Toast.makeText(this@SortingVisualizer,"you selected ${parent!!.getItemAtPosition(position).toString()}",Toast.LENGTH_LONG).show()
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    TODO("Not yet implemented")
+                }
+            }
+
+
+
+            //code when the close button is pressed
             bindingBottomSheet.btnDismiss.setOnClickListener{
 
                 dialog.dismiss()
             }
-
-           // dialog.setCancelable(false)
-            dialog.setContentView(bindingBottomSheet.root)
-            dialog.show()
         }
 
         falseJobInit()
         binding.tvClear.visibility = View.GONE
         binding.tvRedo.visibility = View.GONE
-        binding.tvSort.visibility = View.GONE
+        binding.ivSort.visibility = View.GONE
         binding.tvGenerateGrid.setOnClickListener {
             binding.llIntroText.visibility = View.GONE
             createButtonGrid(size)
@@ -84,7 +105,7 @@ class SortingVisualizer : AppCompatActivity() {
             binding.tvGenerateGrid.visibility = View.GONE
             binding.tvClear.visibility = View.VISIBLE
             binding.tvRedo.visibility = View.VISIBLE
-            binding.tvSort.visibility = View.VISIBLE
+            binding.ivSort.visibility = View.VISIBLE
         }
 
 
@@ -95,7 +116,7 @@ class SortingVisualizer : AppCompatActivity() {
             paintAllButtonsWhiteAgain(size)
             randamize(size)
         }
-        binding.tvSort.setOnClickListener {
+        binding.ivSort.setOnClickListener {
             cancelAllJobs()
             bubbleSort()
         }
@@ -104,7 +125,7 @@ class SortingVisualizer : AppCompatActivity() {
             deleteMainScreen()
             binding.tvClear.visibility = View.GONE
             binding.tvRedo.visibility = View.GONE
-            binding.tvSort.visibility = View.GONE
+            binding.ivSort.visibility = View.GONE
             binding.llIntroText.visibility = View.VISIBLE
             binding.tvGenerateGrid.visibility = View.VISIBLE
         }
@@ -117,6 +138,29 @@ class SortingVisualizer : AppCompatActivity() {
     private fun cancelAllJobs() {
         jobBubbleSort.cancel()
     }
+
+    private fun selectionSort(){
+        jobSelectionSort=GlobalScope.launch (Dispatchers.Main )
+        {
+            var n = arrayToBeSorted.size
+            var temp: Int
+            for (i in 0..n - 1) {
+                var indexOfMin = i
+                for (j in n - 1 downTo i) {
+                    if (arrayToBeSorted[j] < arrayToBeSorted[indexOfMin])
+                        indexOfMin = j
+                }
+                if (i != indexOfMin) {
+                    replaceTwoColInGrid(i, indexOfMin)
+                    delay(400)
+                    temp = arrayToBeSorted[i]
+                    arrayToBeSorted[i] = arrayToBeSorted[indexOfMin]
+                    arrayToBeSorted[indexOfMin] = temp
+                }
+            }
+        }
+    }
+
 
     private fun bubbleSort() {
         jobBubbleSort = GlobalScope.launch(Dispatchers.Main)
