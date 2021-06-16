@@ -26,8 +26,8 @@ class SortingVisualizer : AppCompatActivity() {
     private var SwappedColor:String = "#283350"
     private var backGroundColor:String = "#121212"
     private var textColor:String= "#FFFFFFFF"
-    private val sortingList = listOf<String>("Bubble Sort","Selection Sort","Insertion Sort","Merge Sort","Quick Sort")
-    private var currentSortingAlgo:String = "Bubble Sort"
+    private val sortingList = listOf<String>("BUBBLE SORT","SELECTION SORT","INSERTION SORT","MERGE SORT","QUICK SORT")
+    private var currentSortingAlgo:String = "BUBBLE SORT"
 
     //jobs for sorting algorithm
     private lateinit var jobBubbleSort: Job
@@ -35,6 +35,9 @@ class SortingVisualizer : AppCompatActivity() {
     private lateinit var jobInsertionSort:Job
     private lateinit var jobMergeSort1:Job
     private lateinit var jobMergeSort2:Job
+    private lateinit var jobQuickSort1:Job
+    private lateinit var jobQuickSort2:Job
+    private lateinit var jobQuickSort3:Job
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivitySortingVisualizerBinding.inflate(layoutInflater)
@@ -73,7 +76,7 @@ class SortingVisualizer : AppCompatActivity() {
             dialog.show()
 
             //code to send the values to the adapter
-            val adapter = ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,sortingList)
+            val adapter = ArrayAdapter<String>(this,R.layout.spinner_dropdown_item,sortingList)
             bindingBottomSheet.sortingSelector.adapter = adapter
 
 
@@ -144,17 +147,20 @@ class SortingVisualizer : AppCompatActivity() {
     private fun chooseStartSortingAlgorithm(){
         when(currentSortingAlgo){
 
-            "Selection Sort" -> {
+            "SELECTION SORT" -> {
                 selectionSort()
             }
-            "Bubble Sort" -> {
+            "BUBBLE SORT" -> {
                 bubbleSort()
             }
-            "Insertion Sort" -> {
+            "INSERTION SORT" -> {
                 insertionSort()
             }
-            "Merge Sort" ->{
+            "MERGE SORT" ->{
                 mergeSort(arrayToBeSorted)
+            }
+            "QUICK SORT" ->{
+                quicksort(arrayToBeSorted,0,size)
             }
         }
     }
@@ -165,6 +171,9 @@ class SortingVisualizer : AppCompatActivity() {
         jobInsertionSort = GlobalScope.launch {  }
         jobMergeSort1=GlobalScope.launch {  }
         jobMergeSort2=GlobalScope.launch {  }
+        jobQuickSort1=GlobalScope.launch {  }
+        jobQuickSort2=GlobalScope.launch {  }
+        jobQuickSort3=GlobalScope.launch {  }
     }
 
     private fun cancelAllJobs() {
@@ -173,6 +182,9 @@ class SortingVisualizer : AppCompatActivity() {
         jobInsertionSort.cancel()
         jobMergeSort1.cancel()
         jobMergeSort2.cancel()
+        jobQuickSort1.cancel()
+        jobQuickSort2.cancel()
+        jobQuickSort3.cancel()
     }
 
     private fun selectionSort(){
@@ -288,8 +300,8 @@ class SortingVisualizer : AppCompatActivity() {
             return list
         }
         val middle = list.size / 2
-        val left = list.subList(0,middle)
-        val right = list.subList(middle,list.size)
+        var left = list.subList(0,middle);
+        var right = list.subList(middle,list.size);
         var lleft:MutableList<Int> = mutableListOf()
         var lright:MutableList<Int> = mutableListOf()
         jobMergeSort1=GlobalScope.launch(Dispatchers.Main) {
@@ -304,28 +316,34 @@ class SortingVisualizer : AppCompatActivity() {
 
         var indexLeft = 0
         var indexRight = 0
-        val newList : MutableList<Int> = mutableListOf()
+        var newList : MutableList<Int> = mutableListOf()
         var i=0
         while (indexLeft < lleft.count() && indexRight < lright.count()) {
             if (lleft[indexLeft] <= lright[indexRight]) {
                 paintSingleColWhite(i)
                 colorButton(i,lleft[indexLeft],TraceColor)
-              //  colorButton(i,lleft[indexRight],TraceColor)
-                delay(500)
+                delay(200)
+                paintSingleColWhite(i)
                 colorButton(i,lleft[indexLeft],SwappedColor)
-                colorButton(i,lright[indexRight],BackgroundColor)
-                delay(500)
+                delay(200)
+                paintSingleColWhite(i)
+                buttons[i][lleft[indexLeft]+1].text = lleft[indexLeft].toString()
+                buttons[i][lleft[indexLeft]+1].setTextColor(Color.parseColor(textColor))
+                colorButton(i,lleft[indexLeft],BackgroundColor)
                 i++
                 newList.add(lleft[indexLeft])
                 indexLeft++
             } else {
                 paintSingleColWhite(i)
-                colorButton(i,lright[indexLeft],TraceColor)
-            //    colorButton(i,lright[indexRight],TraceColor)
-                delay(500)
+                colorButton(i,lright[indexRight],TraceColor)
+                delay(200)
+                paintSingleColWhite(i)
                 colorButton(i,lright[indexRight],SwappedColor)
+                delay(200)
+                paintSingleColWhite(i)
                 colorButton(i,lright[indexRight],BackgroundColor)
-                delay(500)
+                buttons[i][lright[indexRight]+1].text = lright[indexRight].toString()
+                buttons[i][lright[indexRight]+1].setTextColor(Color.parseColor(textColor))
                 i++
                 newList.add(lright[indexRight])
                 indexRight++
@@ -336,7 +354,13 @@ class SortingVisualizer : AppCompatActivity() {
             paintSingleColWhite(i)
             colorButton(i,lleft[indexLeft],TraceColor)
             delay(200)
+            paintSingleColWhite(i)
             colorButton(i,lleft[indexLeft],SwappedColor)
+            delay(200)
+            paintSingleColWhite(i)
+            colorButton(i,lleft[indexLeft],BackgroundColor)
+            buttons[i][lleft[indexLeft]+1].text = lleft[indexLeft].toString()
+            buttons[i][lleft[indexLeft]+1].setTextColor(Color.parseColor(textColor))
             i++
             newList.add(lleft[indexLeft])
             indexLeft++
@@ -346,15 +370,62 @@ class SortingVisualizer : AppCompatActivity() {
             paintSingleColWhite(i)
             colorButton(i,lright[indexRight],TraceColor)
             delay(200)
+            paintSingleColWhite(i)
             colorButton(i,lright[indexRight],SwappedColor)
+            delay(200)
+            paintSingleColWhite(i)
+            colorButton(i,lright[indexRight],BackgroundColor)
+            buttons[i][lright[indexRight]+1].text = lright[indexRight].toString()
+            buttons[i][lright[indexRight]+1].setTextColor(Color.parseColor(textColor))
             i++
             newList.add(lright[indexRight])
             indexRight++
         }
 
-        return newList
+        return newList;
     }
 
+    private fun quicksort(A: MutableList<Int>, p: Int, r: Int) {
+        jobQuickSort1=GlobalScope.launch(Dispatchers.Main) {
+            if (p < r) {
+                var q: Int = partition(A, p, r)
+                quicksort(A, p, q - 1)
+                quicksort(A, q + 1, r)
+            }
+        }
+    }
+    //quick sort component
+    suspend fun partition(A: MutableList<Int>, p: Int, r: Int): Int {
+        var i=0
+        jobQuickSort2=GlobalScope.launch(Dispatchers.Main) {
+            var x = A[r]
+            i = p - 1
+            for (j in p until r) {
+                if (A[j] <= x) {
+                    i++
+                    exchange(A, i, j)
+                }
+            }
+            exchange(A, i + 1, r)
+        }
+        jobQuickSort2.join()
+        return i + 1
+    }
+    //quick sort component
+    private suspend fun exchange(A: MutableList<Int>, i: Int, j: Int) {
+        jobQuickSort3=GlobalScope.launch(Dispatchers.Main) {
+            replaceTwoColInGrid(i, j)
+            var temp = A[i]
+            A[i] = A[j]
+            A[j] = temp
+            buttons[i][A[i]+1].text = A[i].toString()
+            buttons[i][A[i]+1].setTextColor(Color.parseColor(textColor))
+            buttons[j][A[j]+1].text = A[j].toString()
+            buttons[i][A[j]+1].setTextColor(Color.parseColor(textColor))
+
+        }
+        jobQuickSort3.join()
+    }
     private suspend fun replaceTwoColInGrid(a: Int, b: Int) {
         val job = GlobalScope.launch(Dispatchers.Main) {
             delay(200)
