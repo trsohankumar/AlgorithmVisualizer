@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import android.widget.AdapterView.OnItemClickListener
 import androidx.appcompat.app.AppCompatActivity
 import com.example.algorithmvisualizer.databinding.ActivitySortingVisualizerBinding
 import com.example.algorithmvisualizer.databinding.SortingVisualizerBottomSheetBinding
@@ -18,15 +17,24 @@ class SortingVisualizer : AppCompatActivity() {
     private lateinit var binding:ActivitySortingVisualizerBinding
     private var size:Int = 10
     private val buttons: MutableList<MutableList<Button>> = ArrayList()
-    var arrayToBeSorted: MutableList<Int> = ArrayList()
-    private var IndigoColor:String = "#FFB500"
-    private var OrangeColor:String = "#F93800"
-    private var PurpleColor:String = "#283350"
+
+    private var arrayToBeSorted: MutableList<Int> = ArrayList()
+
+
+    private var TraceColor:String = "#FFB500"
+    private var BackgroundColor:String = "#F93800"
+    private var SwappedColor:String = "#283350"
     private var backGroundColor:String = "#121212"
     private var textColor:String= "#FFFFFFFF"
     private val sortingList = listOf<String>("Bubble Sort","Selection Sort","Insertion Sort","Merge Sort","Quick Sort")
-    lateinit var jobBubbleSort: Job
-    lateinit var jobSelectionSort:Job
+    private var currentSortingAlgo:String = "Bubble Sort"
+
+    //jobs for sorting algorithm
+    private lateinit var jobBubbleSort: Job
+    private lateinit var jobSelectionSort:Job
+    private lateinit var jobInsertionSort:Job
+    private lateinit var jobMergeSort1:Job
+    private lateinit var jobMergeSort2:Job
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivitySortingVisualizerBinding.inflate(layoutInflater)
@@ -37,21 +45,22 @@ class SortingVisualizer : AppCompatActivity() {
         val actionBar = supportActionBar
         if(actionBar!= null){
             actionBar.setDisplayHomeAsUpEnabled(true)
-            //actionBar.setDisplayShowTitleEnabled(false)
         }
         binding.tbSortingVisualizer.setNavigationOnClickListener {
             onBackPressed()
             cancelAllJobs()
         }
+        binding.tbSortingVisualizer.title = currentSortingAlgo
 
+        //Dark and Light mode
         val appSettingPrefs: SharedPreferences =getSharedPreferences("AppSettingPrefs",0)
         val isNightModeOn:Boolean=appSettingPrefs.getBoolean("NightMode",false)
         if(!isNightModeOn){
             backGroundColor = "#E6E6E6"
             textColor="#FF000000"
-            OrangeColor="#FFD55A"
-            IndigoColor="#293250"
-            PurpleColor="#6DD47E"
+            BackgroundColor="#FFD55A"
+            TraceColor="#293250"
+            SwappedColor="#6DD47E"
 
         }
 
@@ -59,7 +68,7 @@ class SortingVisualizer : AppCompatActivity() {
             cancelAllJobs()
             //code to display the Bottom Sheet
             val dialog = BottomSheetDialog(this)
-            var bindingBottomSheet  : SortingVisualizerBottomSheetBinding = SortingVisualizerBottomSheetBinding.inflate(layoutInflater)
+            val bindingBottomSheet  : SortingVisualizerBottomSheetBinding = SortingVisualizerBottomSheetBinding.inflate(layoutInflater)
             dialog.setContentView(bindingBottomSheet.root)
             dialog.show()
 
@@ -76,31 +85,32 @@ class SortingVisualizer : AppCompatActivity() {
                     position: Int,
                     id: Long
                 ) {
-                    Toast.makeText(this@SortingVisualizer,"you selected ${parent!!.getItemAtPosition(position).toString()}",Toast.LENGTH_LONG).show()
+                    currentSortingAlgo = parent!!.getItemAtPosition(position).toString()
+                    binding.tbSortingVisualizer.title = currentSortingAlgo
+                    Toast.makeText(this@SortingVisualizer,"you selected ${parent.getItemAtPosition(position).toString()}",Toast.LENGTH_LONG).show()
                 }
 
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    TODO("Not yet implemented")
-                }
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
-
-
-
             //code when the close button is pressed
             bindingBottomSheet.btnDismiss.setOnClickListener{
-
                 dialog.dismiss()
             }
         }
 
         falseJobInit()
+
+        //Disabling views that are shown after grid is generated
         binding.tvClear.visibility = View.GONE
         binding.tvRedo.visibility = View.GONE
         binding.ivSort.visibility = View.GONE
+
+        //creating the grid
         binding.tvGenerateGrid.setOnClickListener {
             binding.llIntroText.visibility = View.GONE
             createButtonGrid(size)
             paintAllButtonsWhiteAgain(size)
+            //creating random array
             randamize(size)
             binding.tvGenerateGrid.visibility = View.GONE
             binding.tvClear.visibility = View.VISIBLE
@@ -118,7 +128,7 @@ class SortingVisualizer : AppCompatActivity() {
         }
         binding.ivSort.setOnClickListener {
             cancelAllJobs()
-            bubbleSort()
+            chooseStartSortingAlgorithm()
         }
         binding.tvClear.setOnClickListener {
             cancelAllJobs()
@@ -131,22 +141,57 @@ class SortingVisualizer : AppCompatActivity() {
         }
     }
 
+    private fun chooseStartSortingAlgorithm(){
+        when(currentSortingAlgo){
+
+            "Selection Sort" -> {
+                selectionSort()
+            }
+            "Bubble Sort" -> {
+                bubbleSort()
+            }
+            "Insertion Sort" -> {
+                insertionSort()
+            }
+            "Merge Sort" ->{
+                mergeSort(arrayToBeSorted)
+            }
+        }
+    }
+
     private fun falseJobInit() {
         jobBubbleSort = GlobalScope.launch { }
+        jobSelectionSort = GlobalScope.launch {  }
+        jobInsertionSort = GlobalScope.launch {  }
+        jobMergeSort1=GlobalScope.launch {  }
+        jobMergeSort2=GlobalScope.launch {  }
     }
 
     private fun cancelAllJobs() {
         jobBubbleSort.cancel()
+        jobSelectionSort.cancel()
+        jobInsertionSort.cancel()
+        jobMergeSort1.cancel()
+        jobMergeSort2.cancel()
     }
 
     private fun selectionSort(){
         jobSelectionSort=GlobalScope.launch (Dispatchers.Main )
         {
-            var n = arrayToBeSorted.size
+            val n = arrayToBeSorted.size
             var temp: Int
             for (i in 0..n - 1) {
                 var indexOfMin = i
-                for (j in n - 1 downTo i) {
+                for (j in n - 1 downTo i+1) {
+                    paintSingleColWhite(j)
+                    colorButton(j, arrayToBeSorted[j], TraceColor)
+                    colorButton(j-1, arrayToBeSorted[j-1], TraceColor)
+                    buttons[j][arrayToBeSorted[j]+1].text = arrayToBeSorted[j].toString()
+                    buttons[j-1][arrayToBeSorted[j-1]+1].text = arrayToBeSorted[j-1].toString()
+                    delay(200)
+                    colorButton(j, arrayToBeSorted[j], BackgroundColor)
+                    colorButton(j-1, arrayToBeSorted[j-1], BackgroundColor)
+                    delay(200)
                     if (arrayToBeSorted[j] < arrayToBeSorted[indexOfMin])
                         indexOfMin = j
                 }
@@ -156,6 +201,10 @@ class SortingVisualizer : AppCompatActivity() {
                     temp = arrayToBeSorted[i]
                     arrayToBeSorted[i] = arrayToBeSorted[indexOfMin]
                     arrayToBeSorted[indexOfMin] = temp
+                    buttons[i][arrayToBeSorted[i]+1].text = arrayToBeSorted[i].toString()
+                    buttons[i][arrayToBeSorted[i]+1].setTextColor(Color.parseColor(textColor))
+                    buttons[indexOfMin][arrayToBeSorted[indexOfMin]+1].text = arrayToBeSorted[indexOfMin].toString()
+                    buttons[indexOfMin][arrayToBeSorted[indexOfMin]+1].setTextColor(Color.parseColor(textColor))
                 }
             }
         }
@@ -170,13 +219,13 @@ class SortingVisualizer : AppCompatActivity() {
                 swap = false
                 for (i in 0 until arrayToBeSorted.size - 1) {
                     paintSingleColWhite(i)
-                    colorButton(i, arrayToBeSorted[i], IndigoColor)
-                    colorButton(i+1, arrayToBeSorted[i+1], IndigoColor)
+                    colorButton(i, arrayToBeSorted[i], TraceColor)
+                    colorButton(i+1, arrayToBeSorted[i+1], TraceColor)
                     buttons[i][arrayToBeSorted[i]+1].text = arrayToBeSorted[i].toString()
                     buttons[i+1][arrayToBeSorted[i+1]+1].text = arrayToBeSorted[i+1].toString()
                     delay(200)
-                    colorButton(i, arrayToBeSorted[i], OrangeColor)
-                    colorButton(i+1, arrayToBeSorted[i+1], OrangeColor)
+                    colorButton(i, arrayToBeSorted[i], BackgroundColor)
+                    colorButton(i+1, arrayToBeSorted[i+1], BackgroundColor)
                     delay(200)
                     if (arrayToBeSorted[i] > arrayToBeSorted[i + 1]) {
                         replaceTwoColInGrid(i, i + 1)
@@ -195,17 +244,127 @@ class SortingVisualizer : AppCompatActivity() {
         }
     }
 
+    private fun insertionSort(){
+        //at each iteration the lighter element is put in the front
+        jobInsertionSort=GlobalScope.launch (Dispatchers.Main )
+        {
+            for (i in 1..size) {
+                val item = arrayToBeSorted[i]
+                var j = i - 1
+                while (j >= 0 && arrayToBeSorted[j] > item) {
+                    colorButton(j+1,arrayToBeSorted[j+1],TraceColor)
+                    delay(100)
+                    paintSingleColWhite(j + 1)
+                    colorButton(j + 1, arrayToBeSorted[j], TraceColor)
+                    delay(200)
+                    arrayToBeSorted[j + 1] = arrayToBeSorted[j]
+                    colorButton(j + 1, arrayToBeSorted[j], BackgroundColor)
+                    buttons[j+1][arrayToBeSorted[j+1]+1].text = arrayToBeSorted[j+1].toString()
+                    buttons[j+1][arrayToBeSorted[j+1]+1].setTextColor(Color.parseColor(textColor))
+                    j -= 1
+                }
+                colorButton(j+1,arrayToBeSorted[j+1],TraceColor)
+                delay(500)
+                paintSingleColWhite(j + 1)
+                colorButton(j + 1, item, SwappedColor)
+                delay(500)
+                arrayToBeSorted[j + 1] = item
+                colorButton(j + 1, arrayToBeSorted[j+1], BackgroundColor)
+                buttons[j+1][arrayToBeSorted[j+1]+1].text = arrayToBeSorted[j+1].toString()
+                buttons[j+1][arrayToBeSorted[j+1]+1].setTextColor(Color.parseColor(textColor))
+
+            }
+        }
+    }
+
+    private fun mergeSort(list: MutableList<Int>){
+        GlobalScope.launch (Dispatchers.Main) {
+            merger(list)
+        }
+    }
+    private suspend fun merger(list: MutableList<Int>): MutableList<Int> {
+
+        if (list.size <= 1) {
+            return list
+        }
+        val middle = list.size / 2
+        val left = list.subList(0,middle)
+        val right = list.subList(middle,list.size)
+        var lleft:MutableList<Int> = mutableListOf()
+        var lright:MutableList<Int> = mutableListOf()
+        jobMergeSort1=GlobalScope.launch(Dispatchers.Main) {
+            lleft = merger(left)
+        }
+        jobMergeSort1.join()
+        jobMergeSort2=GlobalScope.launch(Dispatchers.Main) {
+            lright = merger(right)
+        }
+        jobMergeSort2.join()
+
+
+        var indexLeft = 0
+        var indexRight = 0
+        val newList : MutableList<Int> = mutableListOf()
+        var i=0
+        while (indexLeft < lleft.count() && indexRight < lright.count()) {
+            if (lleft[indexLeft] <= lright[indexRight]) {
+                paintSingleColWhite(i)
+                colorButton(i,lleft[indexLeft],TraceColor)
+              //  colorButton(i,lleft[indexRight],TraceColor)
+                delay(500)
+                colorButton(i,lleft[indexLeft],SwappedColor)
+                colorButton(i,lright[indexRight],BackgroundColor)
+                delay(500)
+                i++
+                newList.add(lleft[indexLeft])
+                indexLeft++
+            } else {
+                paintSingleColWhite(i)
+                colorButton(i,lright[indexLeft],TraceColor)
+            //    colorButton(i,lright[indexRight],TraceColor)
+                delay(500)
+                colorButton(i,lright[indexRight],SwappedColor)
+                colorButton(i,lright[indexRight],BackgroundColor)
+                delay(500)
+                i++
+                newList.add(lright[indexRight])
+                indexRight++
+            }
+        }
+
+        while (indexLeft < lleft.size) {
+            paintSingleColWhite(i)
+            colorButton(i,lleft[indexLeft],TraceColor)
+            delay(200)
+            colorButton(i,lleft[indexLeft],SwappedColor)
+            i++
+            newList.add(lleft[indexLeft])
+            indexLeft++
+        }
+
+        while (indexRight < lright.size) {
+            paintSingleColWhite(i)
+            colorButton(i,lright[indexRight],TraceColor)
+            delay(200)
+            colorButton(i,lright[indexRight],SwappedColor)
+            i++
+            newList.add(lright[indexRight])
+            indexRight++
+        }
+
+        return newList
+    }
 
     private suspend fun replaceTwoColInGrid(a: Int, b: Int) {
         val job = GlobalScope.launch(Dispatchers.Main) {
             delay(200)
             paintSingleColWhite(a)
             paintSingleColWhite(b)
-            colorButton(a, arrayToBeSorted[b], PurpleColor)
-            colorButton(b, arrayToBeSorted[a], PurpleColor)
+            colorButton(a, arrayToBeSorted[b], SwappedColor)
+            colorButton(b, arrayToBeSorted[a], SwappedColor)
             delay(200)
-            colorButton(a, arrayToBeSorted[b], OrangeColor)
-            colorButton(b, arrayToBeSorted[a], OrangeColor)
+            colorButton(a, arrayToBeSorted[b], BackgroundColor)
+            colorButton(b, arrayToBeSorted[a], BackgroundColor)
         }
         job.join()
     }
@@ -222,7 +381,7 @@ class SortingVisualizer : AppCompatActivity() {
             val rowSize = size -1
             val row = (0..rowSize).random()
             arrayToBeSorted.add(row)
-            colorButton(col, row, OrangeColor)
+            colorButton(col, row, BackgroundColor)
             buttons[col][row+1].text = row.toString()
             buttons[col][row+1].setTextColor(Color.parseColor(textColor))
         }
@@ -249,7 +408,7 @@ class SortingVisualizer : AppCompatActivity() {
             LinearLayout.LayoutParams.MATCH_PARENT
         )
         mainSortingScreen.orientation = LinearLayout.HORIZONTAL
-        var mainSortingScreenId = resources.getIdentifier("mainscreen", "id", packageName)
+        val mainSortingScreenId = resources.getIdentifier("mainscreen", "id", packageName)
         mainSortingScreen.id = mainSortingScreenId
         binding.SortingDisplay.addView(mainSortingScreen)
         for (i in 0..size) {
@@ -278,7 +437,7 @@ class SortingVisualizer : AppCompatActivity() {
     }
 
     private fun deleteMainScreen() {
-        var mainscreenid = resources.getIdentifier("mainscreen", "id", packageName)
+        val mainscreenid = resources.getIdentifier("mainscreen", "id", packageName)
         val mainscreen=findViewById<LinearLayout>(mainscreenid)
         (mainscreen.parent as ViewGroup).removeView(mainscreen)
         buttons.removeAll(buttons)

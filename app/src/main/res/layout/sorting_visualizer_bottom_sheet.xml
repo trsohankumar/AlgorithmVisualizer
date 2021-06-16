@@ -23,6 +23,7 @@
         android:id="@+id/sorting_selector"
         android:layout_width="match_parent"
         android:padding="15dp"
+        android:background="@color/backgroundColor"
         android:layout_height="wrap_content"/>
 
 
