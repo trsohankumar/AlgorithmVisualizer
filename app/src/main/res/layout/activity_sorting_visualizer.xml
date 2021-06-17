@@ -81,11 +81,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_baseline_expand_less"
+        app:tint="@color/headingTextColor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="1dp"
         android:paddingLeft="12dp"
-        app:tint="@color/imageColor"
         android:layout_marginBottom="2dp"
         app:layout_constraintBottom_toTopOf="@id/tvGenerateGrid" />
 

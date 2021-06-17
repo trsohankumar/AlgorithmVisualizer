@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.example.algorithmvisualizer.databinding.ActivitySortingVisualizerBinding
 import com.example.algorithmvisualizer.databinding.SortingVisualizerBottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -95,6 +96,46 @@ class SortingVisualizer : AppCompatActivity() {
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
+            //code for the seekbar
+            var startPoint = 0
+            var endpoint = 0
+            bindingBottomSheet.seekBarSize.progress = size
+            bindingBottomSheet.sizeText.text = "Current size: ${size.toString()}"
+            bindingBottomSheet.seekBarSize.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
+                override fun onProgressChanged(
+                    seekBar: SeekBar?,
+                    progress: Int,
+                    fromUser: Boolean
+                ) {
+                    bindingBottomSheet.sizeText.text = "Current size: ${progress.toString()}"
+                    size = progress
+                    //delete main screen only if visible after changing the size
+
+                    if(!binding.tvGenerateGrid.isVisible){
+                        deleteMainScreen()
+                        binding.tvClear.visibility = View.GONE
+                        binding.tvRedo.visibility = View.GONE
+                        binding.ivSort.visibility = View.GONE
+                        binding.llIntroText.visibility = View.VISIBLE
+                        binding.tvGenerateGrid.visibility = View.VISIBLE
+                    }
+
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                    if(seekBar != null){
+                        startPoint = seekBar.progress
+                    }
+
+                }
+
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                    if (seekBar != null) {
+                        endpoint = seekBar.progress
+                    }
+                }
+
+            })
             //code when the close button is pressed
             bindingBottomSheet.btnDismiss.setOnClickListener{
                 dialog.dismiss()
