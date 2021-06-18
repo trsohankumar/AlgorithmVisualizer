@@ -24,7 +24,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.304"
-        app:srcCompat="@drawable/ic_moon"
+        android:src="@drawable/ic_moon"
         app:tint="@color/imageColor" />
 
     <androidx.cardview.widget.CardView
@@ -55,7 +55,6 @@
             <ImageView
                 android:layout_width="70dp"
                 android:layout_height="60dp"
-
                 android:src="@drawable/ic_finish"
                 app:tint="@color/imageColor" />
 
