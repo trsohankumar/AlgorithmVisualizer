@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorLightBlack"
+    tools:context=".AddNoteFragment">
+
+    <EditText
+        android:id="@+id/edit_text_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_45sdp"
+        android:hint="@string/title"
+        android:inputType="text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/white"
+        android:textColorHighlight="@color/white"
+        android:textColorHint="@color/white" />
+
+
+    <EditText
+        android:id="@+id/edit_text_note"
+        android:layout_width="match_parent"
+        android:layout_height="580dp"
+        android:layout_below="@id/edit_text_title"
+
+        android:gravity="top"
+        android:hint="@string/note"
+        android:inputType="textMultiLine"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white" />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/deleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="@dimen/_60sdp"
+        android:layout_marginRight="@dimen/_60sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:clickable="true"
+        android:src="@drawable/ic_baseline_delete_24" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/SaveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:clickable="true"
+        android:src="@drawable/ic_baseline_save_24" />
+
+    <Button
+        android:id="@+id/blueButton"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
+        app:backgroundTint="@color/colorBlue" />
+
+    <Button
+        android:id="@+id/pinkButton"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/_50sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
+
+        android:text=""
+        app:backgroundTint="#D81B60" />
+
+    <Button
+        android:id="@+id/whiteButton"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/_110sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
+
+        android:text=""
+        app:backgroundTint="@color/white" />
+
+    <Button
+        android:id="@+id/yellowButton"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/_80sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
+
+        android:text=""
+        app:backgroundTint="#FDD835" />
+
+</RelativeLayout>

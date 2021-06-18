@@ -18,4 +18,9 @@
     <color name="codeColor">#3C3939</color>
     <color name="toolBarButtonColor">#FF000000</color>
     <color name="codeBackgroundColor">#BCBCB6</color>
+    <color name="colorAccent">#03DAC5</color>
+    <color name="colorYellow">#ffd633</color>
+    <color name="colorBlue">#4e33ff</color>
+    <color name="colorGray">#CACACA</color>
+    <color name="colorLightBlack">#171c26</color>
 </resources>

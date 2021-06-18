@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.algorithmvisualizer.databinding.ActivityMainBinding
 
@@ -68,6 +67,10 @@ class MainActivity : AppCompatActivity() {
         }
         binding.cvSortingVisualizer.setOnClickListener {
             val intent = Intent(this,SortingVisualizer::class.java)
+            startActivity(intent)
+        }
+        binding.cvNotesSection.setOnClickListener{
+            val intent=Intent(this,MainNotes::class.java)
             startActivity(intent)
         }
     }

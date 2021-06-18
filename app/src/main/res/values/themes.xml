@@ -21,4 +21,12 @@
     <style name="splashTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_back</item>
     </style>
+    <style name="ThemeOverlay.search" parent="Theme.AlgorithmVisualizer">
+
+        <!-- Text color -->
+        <item name="android:editTextColor">@color/white</item>
+        <!-- Hint text color -->
+        <item name="android:textColorHint">@color/colorGray</item>
+
+    </style>
 </resources>
