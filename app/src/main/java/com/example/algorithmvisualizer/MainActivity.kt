@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.algorithmvisualizer.databinding.ActivityMainBinding
 
@@ -71,7 +70,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
         binding.cvNotesSection.setOnClickListener{
-            val intent=Intent(this,Notes::class.java)
+            val intent=Intent(this,MainNotes::class.java)
             startActivity(intent)
         }
     }
