@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.navigation.Navigation
+import com.example.algorithmvisualizer.databinding.FragmentAddNoteBinding
 import com.example.algorithmvisualizer.db.Note
 import com.example.algorithmvisualizer.db.NoteDatabase
 import kotlinx.android.synthetic.main.fragment_add_note.*
@@ -18,6 +19,7 @@ class AddNoteFragment : BaseFragment() {
 
     private var note:Note?=null  //checking if note is not null so that we cannot delete null note(possibly delete while adding new one)
 
+    private lateinit var binding:FragmentAddNoteBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,8 +27,9 @@ class AddNoteFragment : BaseFragment() {
     ): View? {
 
         setHasOptionsMenu(true)
+        binding = FragmentAddNoteBinding.inflate(inflater,container,false)
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_note, container, false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -39,7 +42,7 @@ class AddNoteFragment : BaseFragment() {
             edit_text_note.setText(note?.note)
         }
     //to save action
-      SaveButton.setOnClickListener{ view ->
+      binding.SaveButton.setOnClickListener{ view ->
           val  noteTitle=edit_text_title.text.toString().trim()
           val noteBody=edit_text_note.text.toString().trim()
             if(noteTitle.isEmpty()){
@@ -76,7 +79,7 @@ class AddNoteFragment : BaseFragment() {
           }
 
         //delete note action part
-        deleteButton.setOnClickListener{
+        binding.deleteButton.setOnClickListener{
             launch {
                 NoteDatabase(context!!).getNoteDao().deleteNote(note!!)
                 val action=AddNoteFragmentDirections.actionSaveNote()

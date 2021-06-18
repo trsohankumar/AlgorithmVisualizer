@@ -6,38 +6,31 @@
     android:layout_height="match_parent"
     tools:context=".MainNotes">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        app:cardBackgroundColor="@color/colorLightBlack"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
 
 
-        app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:fontFamily="@font/roboto"
-            android:text="My Notes"
-            android:textAllCaps="true"
-            android:textColor="@color/colorAccent"
-            android:textSize="34sp"
-            android:textStyle="bold" />
-    </androidx.cardview.widget.CardView>
     <fragment
         android:id="@+id/fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
-       android:layout_width="match_parent" android:layout_height="match_parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_graph"
-
         tools:layout_editor_absoluteY="1dp" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbMyNotes"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:background="@color/toolBarColor"
+
+        app:title="My Notes"
+        app:titleTextColor="@color/textColor"
+        android:theme="@style/ToolbarTheme" />
 </androidx.constraintlayout.widget.ConstraintLayout>

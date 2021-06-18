@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.example.algorithmvisualizer.databinding.FragmentNotesHomeBinding
 import com.example.algorithmvisualizer.db.NoteDatabase
 
 import kotlinx.android.synthetic.main.fragment_notes_home.*
@@ -16,21 +17,24 @@ import kotlinx.coroutines.launch
 class NotesHomeFragment : BaseFragment() {
 
 
+    private lateinit var binding:FragmentNotesHomeBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notes_home, container, false)
+        binding = FragmentNotesHomeBinding.inflate(layoutInflater,container,false)
+        return binding.root
 
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         //displaying the notes
-        recyclerViewNotes.setHasFixedSize(true)
+        binding.recyclerViewNotes.setHasFixedSize(true)
         //grid of 3
-        recyclerViewNotes.layoutManager=StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL)
+        binding.recyclerViewNotes.layoutManager=StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL)
 
         launch {
             context?.let {
@@ -41,7 +45,7 @@ class NotesHomeFragment : BaseFragment() {
         }
 
 
-        AddButton.setOnClickListener{
+        binding.AddButton.setOnClickListener{
             val action=NotesHomeFragmentDirections.actionAddNote()
             Navigation.findNavController(it).navigate(action)
         }

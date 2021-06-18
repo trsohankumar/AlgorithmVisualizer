@@ -65,8 +65,6 @@
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="@dimen/_20sdp"
         android:layout_marginBottom="@dimen/_20sdp"
-
-        android:text=""
         app:backgroundTint="@color/colorBlue" />
 
     <Button

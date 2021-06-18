@@ -15,6 +15,17 @@ class MainNotes : AppCompatActivity() {
         binding= ActivityMainNotesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setSupportActionBar(binding.tbMyNotes)
+        val actionBar = supportActionBar
+        if(actionBar!= null){
+            actionBar.setDisplayHomeAsUpEnabled(true)
+            //actionBar.setDisplayShowTitleEnabled(false)
+        }
+        binding.tbMyNotes.setNavigationOnClickListener {
+            onBackPressed()
+        }
+
+
         val navController= Navigation.findNavController(this,R.id.fragment)
 
 
