@@ -22,7 +22,7 @@ class MainNotes : AppCompatActivity() {
             //actionBar.setDisplayShowTitleEnabled(false)
         }
         binding.tbMyNotes.setNavigationOnClickListener {
-            onBackPressed()
+            finish();
 
         }
 
