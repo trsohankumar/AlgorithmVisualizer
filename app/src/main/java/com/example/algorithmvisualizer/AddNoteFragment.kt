@@ -72,6 +72,7 @@ class AddNoteFragment : BaseFragment() {
                   }
 
                   val action=AddNoteFragmentDirections.actionSaveNote()
+                  getFragmentManager()?.popBackStack();
                   Navigation.findNavController(view).navigate(action)
 
               }
@@ -99,6 +100,7 @@ class AddNoteFragment : BaseFragment() {
             launch {
                 NoteDatabase(context!!).getNoteDao().deleteNote(note!!)
                 val action=AddNoteFragmentDirections.actionSaveNote()
+                getFragmentManager()?.popBackStack();
                 Navigation.findNavController(view!!).navigate(action)
                 context?.let{
                     it.toast("Note Deleted")
