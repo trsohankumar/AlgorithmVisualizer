@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
-        android:max="15"
+        android:max="10"
         android:min="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,6 +43,32 @@
         app:tint="@color/imageColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/seekBarSize"
+        app:layout_constraintBottom_toTopOf="@id/sorting_selector"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:backgroundTint="@color/headingTextColor"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="10dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvTimeComplexity"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:layout_marginStart="110dp"
+            android:text="Complexity"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/roboto"
+            android:textColor="@color/textColor"
+            android:layout_marginLeft="50dp" />
+
+    </androidx.cardview.widget.CardView>
 
     <Spinner
         android:id="@+id/sorting_selector"

@@ -41,6 +41,7 @@ class SortingVisualizer : AppCompatActivity() {
     private lateinit var jobQuickSort3:Job
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        //binding code
         binding = ActivitySortingVisualizerBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -91,8 +92,27 @@ class SortingVisualizer : AppCompatActivity() {
                 ) {
                     currentSortingAlgo = parent!!.getItemAtPosition(position).toString()
                     binding.tbSortingVisualizer.title = currentSortingAlgo
+                    when(currentSortingAlgo){
+
+                        "SELECTION SORT" -> {
+                            bindingBottomSheet.tvTimeComplexity.text = "O(n^2)"
+                        }
+                        "BUBBLE SORT" -> {
+                            bindingBottomSheet.tvTimeComplexity.text = "O(n^2)"
+                        }
+                        "INSERTION SORT" -> {
+                            bindingBottomSheet.tvTimeComplexity.text = "O(n^2)"
+                        }
+                        "MERGE SORT" ->{
+                            bindingBottomSheet.tvTimeComplexity.text = "O(nlog(n))"
+                        }
+                        "QUICK SORT" ->{
+                            bindingBottomSheet.tvTimeComplexity.text = "O(nlog(n))"
+                        }
+                    }
                     Toast.makeText(this@SortingVisualizer,"you selected ${parent.getItemAtPosition(position).toString()}",Toast.LENGTH_LONG).show()
                 }
+
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
@@ -136,6 +156,7 @@ class SortingVisualizer : AppCompatActivity() {
                 }
 
             })
+
             //code when the close button is pressed
             bindingBottomSheet.btnDismiss.setOnClickListener{
                 dialog.dismiss()
@@ -436,7 +457,7 @@ class SortingVisualizer : AppCompatActivity() {
         }
     }
     //quick sort component
-    suspend fun partition(A: MutableList<Int>, p: Int, r: Int): Int {
+    private suspend fun partition(A: MutableList<Int>, p: Int, r: Int): Int {
         var i=0
         jobQuickSort2=GlobalScope.launch(Dispatchers.Main) {
             var x = A[r]
@@ -487,6 +508,7 @@ class SortingVisualizer : AppCompatActivity() {
             }
         }
     }
+    //custom randomize class
     private fun randamize(size: Int) {
         arrayToBeSorted.removeAll(arrayToBeSorted)
         for (col in 0..size) {
