@@ -18,6 +18,7 @@ import com.varunest.sparkbutton.SparkButton
 import com.varunest.sparkbutton.SparkButtonBuilder
 import com.varunest.sparkbutton.SparkEventListener
 import kotlinx.coroutines.*
+import java.lang.Math.abs
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -29,6 +30,7 @@ class PathFinder : AppCompatActivity() {
     private val buttons: MutableList<MutableList<SparkButton>> = ArrayList()
     private val sizeColumn = 10
     private val sizeRow = 20
+    private var pathfound:Boolean = false
     var startStatusKeeper: Int = 0
     var endStatusKeeper: Int = 0
     var butsrcx: Int = -1
@@ -61,7 +63,6 @@ class PathFinder : AppCompatActivity() {
     var vis: MutableList<MutableList<Int>> = mutableListOf()
     var dfsPath: MutableList<MutableList<Int>> = mutableListOf()
 
-    var algoChooseValue=0
 
     var ywallInvalid:MutableList<Int> = mutableListOf()
     var xwallInvalid:MutableList<Int> = mutableListOf()
@@ -117,6 +118,18 @@ class PathFinder : AppCompatActivity() {
                 ) {
                     currentPathFindingAlgo = parent!!.getItemAtPosition(position).toString()
                     binding.tbPathFindingVisualizer.title = currentPathFindingAlgo
+                    when(currentPathFindingAlgo){
+
+                        "DFS" -> {
+                            bindingBottomSheet.tvTimeComplexity.text = "O(V+E)"
+                        }
+                        "BFS" -> {
+                            bindingBottomSheet.tvTimeComplexity.text = "O(V+E)"
+                        }
+                        "DIJKSTRA" -> {
+                            bindingBottomSheet.tvTimeComplexity.text = "O(V^2)"
+                        }
+                    }
                     Toast.makeText(this@PathFinder,"you selected ${parent.getItemAtPosition(position).toString()}",Toast.LENGTH_LONG).show()
                 }
 
@@ -133,6 +146,7 @@ class PathFinder : AppCompatActivity() {
         binding.tvRedo.visibility = View.GONE
         binding.ivSort.visibility = View.GONE
         binding.tvGenerateGrid.setOnClickListener {
+            pathfound = false
             binding.llIntroText.visibility = View.GONE
             gradientDrawableValueSetter()
             createButtonGrid()
@@ -142,20 +156,24 @@ class PathFinder : AppCompatActivity() {
             binding.ivSort.visibility = View.VISIBLE
         }
         binding.ivSort.setOnClickListener {
-            GlobalScope.launch(Dispatchers.Main) {
-                chooseStartSortingAlgorithm()
-            }
+            pathfound = true
+            cancelAllJobs()
+            chooseStartSortingAlgorithm()
         }
         binding.tvClear.setOnClickListener {
+            pathfound = false
             cancelAllJobs()
             deleteMainScreen()
+        }
+        binding.tvRedo.setOnClickListener {
+            if(!pathfound){
+                GlobalScope.launch (Dispatchers.Main){
+                    recursiveDivisionMaze(0, sizeRow, 0, sizeColumn)
+                }
+            }
 
         }
     }
-
-
-
-
     private fun falseJobInit() {
         jobDFS = GlobalScope.launch { }
         jobBFS= GlobalScope.launch {  }
@@ -176,13 +194,99 @@ class PathFinder : AppCompatActivity() {
     private fun chooseStartSortingAlgorithm(){
         when(currentPathFindingAlgo){
             "DFS" -> {
+                pathfound = true
                 findPathDFS()
             }
             "BFS" -> {
+                pathfound = true
                 findPathBFS()
             }
             "DIJKSTRA" -> {
-                findPathdijikstra()
+                pathfound = true
+                findPathdijkstra()
+            }
+        }
+    }
+    suspend fun recursiveDivisionMaze(xs:Int,xe:Int,ys:Int,ye:Int){
+        gridButtonActiveOrNot=1
+        if(kotlin.math.abs(xe - xs) >= kotlin.math.abs(ye - ys)){
+            if(kotlin.math.abs(xs - xe) >=3) {
+                var xwall: Int = ((xs+1) until xe).random()
+                Log.i("walls","xinvalid")
+                for (i in 0 until xwallInvalid.size){
+                    Log.i("walls",xwallInvalid.elementAt(i).toString())
+                    if(xwall==xwallInvalid[i])
+                    {
+                        xwall = if(xwall==xe-1){
+                            xwall-1
+                        } else{
+                            xwall+1
+                        }
+                    }
+                }
+                Log.i("walls","xwall"+xwall.toString())
+                var clear = (ys..ye).random()
+                ywallInvalid.add(clear)
+                for (i in ys..ye) {
+                    if(i!=clear) {
+                        buttonStatusKeeper[xwall][buttons[xwall][i]] = 1
+                        buttons[xwall][i].setInactiveImage(R.drawable.ic_box)
+                        buttons[xwall][i].setActiveImage(R.drawable.ic_box)
+                        buttons[xwall][i].playAnimation()
+                    }
+
+                }
+                delay(50)
+                var job1=GlobalScope.launch(Dispatchers.Main) {
+
+                    recursiveDivisionMaze(xs, xwall - 1, ys, ye)
+                }
+                job1.join()
+                var job2=GlobalScope.launch(Dispatchers.Main) {
+
+                    recursiveDivisionMaze(xwall + 1, xe, ys, ye)
+                }
+                job2.join()
+                ywallInvalid.remove(clear)
+            }
+        }
+        else{
+            if(kotlin.math.abs(ye - ys) >=4) {
+                var ywall: Int = ((ys+1)..(ye-1)).random()
+                Log.i("walls","yinvalid")
+                for (i in 0..ywallInvalid.size-1){
+                    Log.i("walls",ywallInvalid.elementAt(i).toString())
+                    if(ywall==ywallInvalid.elementAt(i)){
+                        if (ywall==(ye-1)){
+                            ywall=ywall-1
+                        }
+                        else{
+                            ywall=ywall+1
+                        }
+                    }
+                }
+                Log.i("walls","ywall"+ywall.toString())
+                var clear = (xs..xe).random()
+                xwallInvalid.add(clear)
+                for (i in xs..xe) {
+                    if(i!=clear) {
+                        buttonStatusKeeper[i].put(buttons[i][ywall], 1)
+                        buttons[i][ywall].setInactiveImage(R.drawable.ic_box)
+                        buttons[i][ywall].setActiveImage(R.drawable.ic_box)
+                        buttons[i][ywall].playAnimation()
+                    }
+
+                }
+                delay(50)
+                var job1=GlobalScope.launch(Dispatchers.Main) {
+                    recursiveDivisionMaze(xs, xe, ys, ywall - 1)
+                }
+                job1.join()
+                var job2=GlobalScope.launch(Dispatchers.Main) {
+                    recursiveDivisionMaze(xs, xe, ywall + 1, ye)
+                }
+                job2.join()
+                xwallInvalid.remove(clear)
             }
         }
     }
@@ -930,7 +1034,7 @@ class PathFinder : AppCompatActivity() {
     }
 
     @DelicateCoroutinesApi
-    private fun findPathdijikstra() {
+    private fun findPathdijkstra() {
         jobDIJKSTRA = GlobalScope.launch(Dispatchers.Main) {
             gridButtonActiveOrNot = 1
             sized = sizeColumn + 1
@@ -1056,9 +1160,9 @@ class PathFinder : AppCompatActivity() {
 
                     override fun onEvent(button: ImageView?, buttonState: Boolean) {
                         if (startStatusKeeper == 0) {
-                            sButton.setActiveImage(R.drawable.ic_box_start)
+                            sButton.setActiveImage(R.drawable.ic_arrow_right_24)
                             sButton.isClickable = false
-                            sButton.setInactiveImage(R.drawable.ic_box_start)
+                            sButton.setInactiveImage(R.drawable.ic_arrow_right_24)
                             startStatusKeeper = 1
                             buttonStatusRow[sButton] = 3
                             Log.i(

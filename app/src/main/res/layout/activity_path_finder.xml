@@ -112,7 +112,7 @@
         android:textSize="22sp"
         android:textStyle="bold"
         android:paddingBottom="15dp"
-        android:text="REDO"/>
+        android:text="MAZE"/>
 
     <ImageView
         android:id="@+id/ivSort"

@@ -18,7 +18,7 @@ class SortingVisualizer : AppCompatActivity() {
     private lateinit var binding:ActivitySortingVisualizerBinding
     private var size:Int = 10
     private val buttons: MutableList<MutableList<Button>> = ArrayList()
-
+    private var isArraySorted:Boolean = true
     private var arrayToBeSorted: MutableList<Int> = ArrayList()
 
 
@@ -172,6 +172,7 @@ class SortingVisualizer : AppCompatActivity() {
 
         //creating the grid
         binding.tvGenerateGrid.setOnClickListener {
+            isArraySorted = false
             binding.llIntroText.visibility = View.GONE
             createButtonGrid(size)
             paintAllButtonsWhiteAgain(size)
@@ -185,6 +186,7 @@ class SortingVisualizer : AppCompatActivity() {
 
 
         binding.tvRedo.setOnClickListener {
+            isArraySorted = false
             cancelAllJobs()
             deleteMainScreen()
             createButtonGrid(size)
@@ -192,10 +194,15 @@ class SortingVisualizer : AppCompatActivity() {
             randamize(size)
         }
         binding.ivSort.setOnClickListener {
-            cancelAllJobs()
-            chooseStartSortingAlgorithm()
+            if(!isArraySorted){
+                cancelAllJobs()
+                chooseStartSortingAlgorithm()
+            }
+
+
         }
         binding.tvClear.setOnClickListener {
+            isArraySorted = false
             cancelAllJobs()
             deleteMainScreen()
             binding.tvClear.visibility = View.GONE
@@ -210,15 +217,19 @@ class SortingVisualizer : AppCompatActivity() {
         when(currentSortingAlgo){
 
             "SELECTION SORT" -> {
+
                 selectionSort()
             }
             "BUBBLE SORT" -> {
+
                 bubbleSort()
             }
             "INSERTION SORT" -> {
+
                 insertionSort()
             }
             "MERGE SORT" ->{
+
                 mergeSort(arrayToBeSorted)
             }
             "QUICK SORT" ->{
@@ -282,6 +293,7 @@ class SortingVisualizer : AppCompatActivity() {
                 }
             }
         }
+        isArraySorted = true
     }
 
 
@@ -316,6 +328,7 @@ class SortingVisualizer : AppCompatActivity() {
                 }
             }
         }
+        isArraySorted = true
     }
 
     private fun insertionSort(){
@@ -349,6 +362,7 @@ class SortingVisualizer : AppCompatActivity() {
 
             }
         }
+        isArraySorted = true
     }
 
     private fun mergeSort(list: MutableList<Int>){
@@ -443,7 +457,7 @@ class SortingVisualizer : AppCompatActivity() {
             newList.add(lright[indexRight])
             indexRight++
         }
-
+        isArraySorted = true
         return newList;
     }
 
@@ -455,6 +469,7 @@ class SortingVisualizer : AppCompatActivity() {
                 quicksort(A, q + 1, r)
             }
         }
+        isArraySorted = true
     }
     //quick sort component
     private suspend fun partition(A: MutableList<Int>, p: Int, r: Int): Int {
