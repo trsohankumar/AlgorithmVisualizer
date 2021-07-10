@@ -156,9 +156,15 @@ class PathFinder : AppCompatActivity() {
             binding.ivSort.visibility = View.VISIBLE
         }
         binding.ivSort.setOnClickListener {
-            pathfound = true
-            cancelAllJobs()
-            chooseStartSortingAlgorithm()
+            if (startStatusKeeper == 0)
+                Toast.makeText(this, "Select Starting Node!!", Toast.LENGTH_LONG).show()
+            else if (endStatusKeeper == 0)
+                Toast.makeText(this, "Select Ending Node!!", Toast.LENGTH_LONG).show()
+            else {
+                pathfound = true
+                cancelAllJobs()
+                chooseStartSortingAlgorithm()
+            }
         }
         binding.tvClear.setOnClickListener {
             pathfound = false
