@@ -64,10 +64,10 @@ class PathFinder : AppCompatActivity() {
     var dfsPath: MutableList<MutableList<Int>> = mutableListOf()
 
 
-    var ywallInvalid:MutableList<Int> = mutableListOf()
-    var xwallInvalid:MutableList<Int> = mutableListOf()
+  //  var ywallInvalid:MutableList<Int> = mutableListOf()
+   // var xwallInvalid:MutableList<Int> = mutableListOf()
 
-    var gridButtonActiveOrNot=0
+ //   var gridButtonActiveOrNot=0
 
     var bfsqueue:Queue<Tuple2> = LinkedList<Tuple2>()
 
@@ -173,9 +173,7 @@ class PathFinder : AppCompatActivity() {
         }
         binding.tvRedo.setOnClickListener {
             if(!pathfound){
-                GlobalScope.launch (Dispatchers.Main){
-                    recursiveDivisionMaze(0, sizeRow, 0, sizeColumn)
-                }
+                createRandomMaze()
             }
 
         }
@@ -213,6 +211,16 @@ class PathFinder : AppCompatActivity() {
             }
         }
     }
+    private fun createRandomMaze() {
+        for (k in 0..100) {
+            var i = (0..sizeRow).random()
+            var j = (0..sizeColumn).random()
+            buttonStatusKeeper[i][buttons[i][j]] = 1
+            buttons[i][j].setInactiveImage(R.drawable.ic_box)
+            buttons[i][j].setActiveImage(R.drawable.ic_box)
+            buttons[i][j].playAnimation()
+        }
+    }/*
     suspend fun recursiveDivisionMaze(xs:Int,xe:Int,ys:Int,ye:Int){
         gridButtonActiveOrNot=1
         if(kotlin.math.abs(xe - xs) >= kotlin.math.abs(ye - ys)){
@@ -296,11 +304,11 @@ class PathFinder : AppCompatActivity() {
             }
         }
     }
-
+*/
     //All algorithms
     private  fun findPathDFS() {
         jobDFS = GlobalScope.launch(Dispatchers.Main) {
-            gridButtonActiveOrNot = 1
+            //gridButtonActiveOrNot = 1
             //Basically generating a coordinate for all the points
             for (i in 0..(sizeRow)) {
                 val row: MutableList<MutableList<MutableList<Int>>> = mutableListOf()
@@ -771,7 +779,7 @@ class PathFinder : AppCompatActivity() {
 
     private fun findPathBFS() {
         jobBFS = GlobalScope.launch(Dispatchers.Main) {
-            gridButtonActiveOrNot = 1
+         //   gridButtonActiveOrNot = 1
 
             srcx = butsrcx
             srcy = butsrcy
@@ -1042,7 +1050,7 @@ class PathFinder : AppCompatActivity() {
     @DelicateCoroutinesApi
     private fun findPathdijkstra() {
         jobDIJKSTRA = GlobalScope.launch(Dispatchers.Main) {
-            gridButtonActiveOrNot = 1
+           // gridButtonActiveOrNot = 1
             sized = sizeColumn + 1
             srcx = butsrcx
             srcy = butsrcy
