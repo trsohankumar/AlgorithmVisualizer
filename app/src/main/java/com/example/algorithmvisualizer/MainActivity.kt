@@ -73,5 +73,10 @@ class MainActivity : AppCompatActivity() {
             val intent=Intent(this,MainNotes::class.java)
             startActivity(intent)
         }
+        binding.cvPathFinding.setOnClickListener {
+            Intent(this,PathFinder::class.java).also {
+                startActivity(it)
+            }
+        }
     }
 }

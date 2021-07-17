@@ -6,8 +6,10 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cvNotesCard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/codeBackgroundColor"
         android:layout_margin="5dp">
 
         <RelativeLayout
@@ -20,12 +22,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
+                android:textColor="@color/textColor"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
                 tools:text="Title" />
 
             <TextView
                 android:id="@+id/text_view_note"
                 android:layout_width="100dp"
+                android:textColor="@color/textColor"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text_view_title"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
