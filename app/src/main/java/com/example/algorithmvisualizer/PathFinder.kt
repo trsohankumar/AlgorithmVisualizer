@@ -1,7 +1,5 @@
 package com.example.algorithmvisualizer
 
-import android.graphics.Color
-import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -18,7 +16,6 @@ import com.varunest.sparkbutton.SparkButton
 import com.varunest.sparkbutton.SparkButtonBuilder
 import com.varunest.sparkbutton.SparkEventListener
 import kotlinx.coroutines.*
-import java.lang.Math.abs
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -40,21 +37,13 @@ class PathFinder : AppCompatActivity() {
     var buttonWeightStatus = 0
 
 
-    private val gdForRedColor: GradientDrawable = GradientDrawable()
-    private val gdForGreenColor: GradientDrawable = GradientDrawable()
-    private val gdForBrownColor: GradientDrawable = GradientDrawable()
-    private val gdForWhiteColor: GradientDrawable = GradientDrawable()
-    private val gdForBlueColor: GradientDrawable = GradientDrawable()
-
-
-    var v: MutableList<MutableList<MutableList<MutableList<Int>>>> = mutableListOf()
-    var dis: MutableList<MutableList<Int>> = mutableListOf()
+    private var v: MutableList<MutableList<MutableList<MutableList<Int>>>> = mutableListOf()
+    private var dis: MutableList<MutableList<Int>> = mutableListOf()
     var path: MutableList<MutableList<MutableList<MutableList<Int>>>> = mutableListOf()
 
     @RequiresApi(Build.VERSION_CODES.N)
     var pq: PriorityQueue<Tuple2> = PriorityQueue<Tuple2>(ComparatorTuple)
     var weight: MutableList<MutableList<Int>> = mutableListOf()
-    var sized: Int = 0
     var srcx: Int = 0
     var srcy: Int = 0
     var desx: Int = -1
@@ -62,13 +51,7 @@ class PathFinder : AppCompatActivity() {
 
     var vis: MutableList<MutableList<Int>> = mutableListOf()
     var dfsPath: MutableList<MutableList<Int>> = mutableListOf()
-
-
-  //  var ywallInvalid:MutableList<Int> = mutableListOf()
-   // var xwallInvalid:MutableList<Int> = mutableListOf()
-
- //   var gridButtonActiveOrNot=0
-
+    
     var bfsqueue:Queue<Tuple2> = LinkedList<Tuple2>()
 
     private val AlgoList = listOf<String>("DFS","BFS","DIJKSTRA")
@@ -148,7 +131,6 @@ class PathFinder : AppCompatActivity() {
         binding.tvGenerateGrid.setOnClickListener {
             pathfound = false
             binding.llIntroText.visibility = View.GONE
-            gradientDrawableValueSetter()
             createButtonGrid()
             binding.tvGenerateGrid.visibility = View.GONE
             binding.tvClear.visibility = View.VISIBLE
@@ -207,280 +189,198 @@ class PathFinder : AppCompatActivity() {
             }
             "DIJKSTRA" -> {
                 pathfound = true
-                findPathdijkstra()
+                findPathDijkstra()
             }
         }
     }
     private fun createRandomMaze() {
-        for (k in 0..100) {
-            var i = (0..sizeRow).random()
-            var j = (0..sizeColumn).random()
+        for (k in 0..70) {
+            val i = (0..sizeRow).random()
+            val j = (0..sizeColumn).random()
             buttonStatusKeeper[i][buttons[i][j]] = 1
             buttons[i][j].setInactiveImage(R.drawable.ic_box)
             buttons[i][j].setActiveImage(R.drawable.ic_box)
             buttons[i][j].playAnimation()
         }
-    }/*
-    suspend fun recursiveDivisionMaze(xs:Int,xe:Int,ys:Int,ye:Int){
-        gridButtonActiveOrNot=1
-        if(kotlin.math.abs(xe - xs) >= kotlin.math.abs(ye - ys)){
-            if(kotlin.math.abs(xs - xe) >=3) {
-                var xwall: Int = ((xs+1) until xe).random()
-                Log.i("walls","xinvalid")
-                for (i in 0 until xwallInvalid.size){
-                    Log.i("walls",xwallInvalid.elementAt(i).toString())
-                    if(xwall==xwallInvalid[i])
-                    {
-                        xwall = if(xwall==xe-1){
-                            xwall-1
-                        } else{
-                            xwall+1
-                        }
-                    }
-                }
-                Log.i("walls","xwall"+xwall.toString())
-                var clear = (ys..ye).random()
-                ywallInvalid.add(clear)
-                for (i in ys..ye) {
-                    if(i!=clear) {
-                        buttonStatusKeeper[xwall][buttons[xwall][i]] = 1
-                        buttons[xwall][i].setInactiveImage(R.drawable.ic_box)
-                        buttons[xwall][i].setActiveImage(R.drawable.ic_box)
-                        buttons[xwall][i].playAnimation()
-                    }
+    }
+
+    private fun map(){
+        for (i in 0..(sizeRow)) {
+            val row: MutableList<MutableList<MutableList<Int>>> = mutableListOf()
+            for (j in 0..(sizeColumn)) {
+                val point: MutableList<MutableList<Int>> = mutableListOf()
+                if (i == 0 && j == 0) {
+                    val neigh1: MutableList<Int> = mutableListOf()
+                    neigh1.add(i + 1)
+                    neigh1.add(j)
+
+                    Log.i("Points", (i + 1).toString() + "," + (j).toString())
+                    point.add(neigh1)
+
+                    val neigh2: MutableList<Int> = mutableListOf()
+                    neigh2.add(i)
+                    neigh2.add(j + 1)
+                    Log.i("Points", (i).toString() + "," + (j + 1).toString())
+                    point.add(neigh2)
+
+                } else if (i == sizeRow && j == 0) {
+                    val neigh1: MutableList<Int> = mutableListOf()
+                    neigh1.add(i - 1)
+                    neigh1.add(j)
+
+                    point.add(neigh1)
+
+                    val neigh2: MutableList<Int> = mutableListOf()
+                    neigh2.add(i)
+                    neigh2.add(j + 1)
+
+                    point.add(neigh2)
+
+                } else if (i == 0 && j == sizeColumn) {
+                    val neigh1: MutableList<Int> = mutableListOf()
+                    neigh1.add(i + 1)
+                    neigh1.add(j)
+
+                    point.add(neigh1)
+
+                    val neigh2: MutableList<Int> = mutableListOf()
+                    neigh2.add(i)
+                    neigh2.add(j - 1)
+
+                    point.add(neigh2)
+
+                } else if (i == sizeRow && j == sizeColumn) {
+                    val neigh1: MutableList<Int> = mutableListOf()
+                    neigh1.add(i - 1)
+                    neigh1.add(j)
+
+                    point.add(neigh1)
+                    val neigh2: MutableList<Int> = mutableListOf()
+
+                    neigh2.add(i)
+                    neigh2.add(j - 1)
+
+                    point.add(neigh2)
+
+                } else if (i == 0) {
+                    val neigh1: MutableList<Int> = mutableListOf()
+                    neigh1.add(i + 1)
+                    neigh1.add(j)
+
+                    point.add(neigh1)
+                    val neigh2: MutableList<Int> = mutableListOf()
+
+                    neigh2.add(i)
+                    neigh2.add(j - 1)
+
+                    point.add(neigh2)
+                    val neigh3: MutableList<Int> = mutableListOf()
+
+                    neigh3.add(i)
+                    neigh3.add(j + 1)
+
+                    point.add(neigh3)
+
+                } else if (i == sizeRow) {
+                    val neigh1: MutableList<Int> = mutableListOf()
+                    neigh1.add(i - 1)
+                    neigh1.add(j)
+
+                    point.add(neigh1)
+                    val neigh2: MutableList<Int> = mutableListOf()
+
+                    neigh2.add(i)
+                    neigh2.add(j - 1)
+
+                    point.add(neigh2)
+                    val neigh3: MutableList<Int> = mutableListOf()
+
+                    neigh3.add(i)
+                    neigh3.add(j + 1)
+
+                    point.add(neigh3)
+
+                } else if (j == 0) {
+                    val neigh1: MutableList<Int> = mutableListOf()
+                    neigh1.add(i - 1)
+                    neigh1.add(j)
+
+                    point.add(neigh1)
+
+                    val neigh2: MutableList<Int> = mutableListOf()
+                    neigh2.add(i + 1)
+                    neigh2.add(j)
+
+                    point.add(neigh2)
+                    val neigh3: MutableList<Int> = mutableListOf()
+
+                    neigh3.add(i)
+                    neigh3.add(j + 1)
+
+                    point.add(neigh3)
+
+                } else if (j == sizeColumn) {
+                    val neigh1: MutableList<Int> = mutableListOf()
+                    neigh1.add(i - 1)
+                    neigh1.add(j)
+
+                    point.add(neigh1)
+                    val neigh2: MutableList<Int> = mutableListOf()
+
+                    neigh2.add(i + 1)
+                    neigh2.add(j)
+
+                    point.add(neigh2)
+                    val neigh3: MutableList<Int> = mutableListOf()
+
+                    neigh3.add(i)
+                    neigh3.add(j - 1)
+
+                    point.add(neigh3)
+
+                } else {
+                    val neigh1: MutableList<Int> = mutableListOf()
+                    neigh1.add(i - 1)
+                    neigh1.add(j)
+
+                    point.add(neigh1)
+                    val neigh2: MutableList<Int> = mutableListOf()
+                    Log.i("Points", (i - 1).toString() + "," + (j).toString())
+
+                    neigh2.add(i + 1)
+                    neigh2.add(j)
+                    Log.i("Points", (i + 1).toString() + "," + (j).toString())
+
+                    point.add(neigh2)
+                    val neigh3: MutableList<Int> = mutableListOf()
+
+                    neigh3.add(i)
+                    neigh3.add(j - 1)
+                    Log.i("Points", (i).toString() + "," + (j - 1).toString())
+                    point.add(neigh3)
+                    val neigh4: MutableList<Int> = mutableListOf()
+
+                    neigh4.add(i)
+                    neigh4.add(j + 1)
+                    Log.i("Points", (i).toString() + "," + (j + 1).toString())
+                    point.add(neigh4)
 
                 }
-                delay(50)
-                var job1=GlobalScope.launch(Dispatchers.Main) {
-
-                    recursiveDivisionMaze(xs, xwall - 1, ys, ye)
-                }
-                job1.join()
-                var job2=GlobalScope.launch(Dispatchers.Main) {
-
-                    recursiveDivisionMaze(xwall + 1, xe, ys, ye)
-                }
-                job2.join()
-                ywallInvalid.remove(clear)
+                row.add(point)
             }
-        }
-        else{
-            if(kotlin.math.abs(ye - ys) >=4) {
-                var ywall: Int = ((ys+1)..(ye-1)).random()
-                Log.i("walls","yinvalid")
-                for (i in 0..ywallInvalid.size-1){
-                    Log.i("walls",ywallInvalid.elementAt(i).toString())
-                    if(ywall==ywallInvalid.elementAt(i)){
-                        if (ywall==(ye-1)){
-                            ywall=ywall-1
-                        }
-                        else{
-                            ywall=ywall+1
-                        }
-                    }
-                }
-                Log.i("walls","ywall"+ywall.toString())
-                var clear = (xs..xe).random()
-                xwallInvalid.add(clear)
-                for (i in xs..xe) {
-                    if(i!=clear) {
-                        buttonStatusKeeper[i].put(buttons[i][ywall], 1)
-                        buttons[i][ywall].setInactiveImage(R.drawable.ic_box)
-                        buttons[i][ywall].setActiveImage(R.drawable.ic_box)
-                        buttons[i][ywall].playAnimation()
-                    }
-
-                }
-                delay(50)
-                var job1=GlobalScope.launch(Dispatchers.Main) {
-                    recursiveDivisionMaze(xs, xe, ys, ywall - 1)
-                }
-                job1.join()
-                var job2=GlobalScope.launch(Dispatchers.Main) {
-                    recursiveDivisionMaze(xs, xe, ywall + 1, ye)
-                }
-                job2.join()
-                xwallInvalid.remove(clear)
-            }
+            v.add(row)
         }
     }
-*/
     //All algorithms
     private  fun findPathDFS() {
         jobDFS = GlobalScope.launch(Dispatchers.Main) {
-            //gridButtonActiveOrNot = 1
             //Basically generating a coordinate for all the points
-            for (i in 0..(sizeRow)) {
-                val row: MutableList<MutableList<MutableList<Int>>> = mutableListOf()
-                for (j in 0..(sizeColumn)) {
-                    val point: MutableList<MutableList<Int>> = mutableListOf()
-                    if (i == 0 && j == 0) {
-                        val neigh1: MutableList<Int> = mutableListOf()
-                        neigh1.add(i + 1)
-                        neigh1.add(j)
 
-                        Log.i("Points", (i + 1).toString() + "," + (j).toString())
-                        point.add(neigh1)
-
-                        val neigh2: MutableList<Int> = mutableListOf()
-                        neigh2.add(i)
-                        neigh2.add(j + 1)
-                        Log.i("Points", (i).toString() + "," + (j + 1).toString())
-                        point.add(neigh2)
-
-                    } else if (i == sizeRow && j == 0) {
-                        val neigh1: MutableList<Int> = mutableListOf()
-                        neigh1.add(i - 1)
-                        neigh1.add(j)
-
-                        point.add(neigh1)
-
-                        val neigh2: MutableList<Int> = mutableListOf()
-                        neigh2.add(i)
-                        neigh2.add(j + 1)
-
-                        point.add(neigh2)
-
-                    } else if (i == 0 && j == sizeColumn) {
-                        val neigh1: MutableList<Int> = mutableListOf()
-                        neigh1.add(i + 1)
-                        neigh1.add(j)
-
-                        point.add(neigh1)
-
-                        val neigh2: MutableList<Int> = mutableListOf()
-                        neigh2.add(i)
-                        neigh2.add(j - 1)
-
-                        point.add(neigh2)
-
-                    } else if (i == sizeRow && j == sizeColumn) {
-                        val neigh1: MutableList<Int> = mutableListOf()
-                        neigh1.add(i - 1)
-                        neigh1.add(j)
-
-                        point.add(neigh1)
-                        val neigh2: MutableList<Int> = mutableListOf()
-
-                        neigh2.add(i)
-                        neigh2.add(j - 1)
-
-                        point.add(neigh2)
-
-                    } else if (i == 0) {
-                        val neigh1: MutableList<Int> = mutableListOf()
-                        neigh1.add(i + 1)
-                        neigh1.add(j)
-
-                        point.add(neigh1)
-                        val neigh2: MutableList<Int> = mutableListOf()
-
-                        neigh2.add(i)
-                        neigh2.add(j - 1)
-
-                        point.add(neigh2)
-                        val neigh3: MutableList<Int> = mutableListOf()
-
-                        neigh3.add(i)
-                        neigh3.add(j + 1)
-
-                        point.add(neigh3)
-
-                    } else if (i == sizeRow) {
-                        val neigh1: MutableList<Int> = mutableListOf()
-                        neigh1.add(i - 1)
-                        neigh1.add(j)
-
-                        point.add(neigh1)
-                        val neigh2: MutableList<Int> = mutableListOf()
-
-                        neigh2.add(i)
-                        neigh2.add(j - 1)
-
-                        point.add(neigh2)
-                        val neigh3: MutableList<Int> = mutableListOf()
-
-                        neigh3.add(i)
-                        neigh3.add(j + 1)
-
-                        point.add(neigh3)
-
-                    } else if (j == 0) {
-                        val neigh1: MutableList<Int> = mutableListOf()
-                        neigh1.add(i - 1)
-                        neigh1.add(j)
-
-                        point.add(neigh1)
-
-                        val neigh2: MutableList<Int> = mutableListOf()
-                        neigh2.add(i + 1)
-                        neigh2.add(j)
-
-                        point.add(neigh2)
-                        val neigh3: MutableList<Int> = mutableListOf()
-
-                        neigh3.add(i)
-                        neigh3.add(j + 1)
-
-                        point.add(neigh3)
-
-                    } else if (j == sizeColumn) {
-                        val neigh1: MutableList<Int> = mutableListOf()
-                        neigh1.add(i - 1)
-                        neigh1.add(j)
-
-                        point.add(neigh1)
-                        val neigh2: MutableList<Int> = mutableListOf()
-
-                        neigh2.add(i + 1)
-                        neigh2.add(j)
-
-                        point.add(neigh2)
-                        val neigh3: MutableList<Int> = mutableListOf()
-
-                        neigh3.add(i)
-                        neigh3.add(j - 1)
-
-                        point.add(neigh3)
-
-                    } else {
-                        val neigh1: MutableList<Int> = mutableListOf()
-                        neigh1.add(i - 1)
-                        neigh1.add(j)
-
-                        point.add(neigh1)
-                        val neigh2: MutableList<Int> = mutableListOf()
-                        Log.i("Points", (i - 1).toString() + "," + (j).toString())
-
-                        neigh2.add(i + 1)
-                        neigh2.add(j)
-                        Log.i("Points", (i + 1).toString() + "," + (j).toString())
-
-                        point.add(neigh2)
-                        val neigh3: MutableList<Int> = mutableListOf()
-
-                        neigh3.add(i)
-                        neigh3.add(j - 1)
-                        Log.i("Points", (i).toString() + "," + (j - 1).toString())
-                        point.add(neigh3)
-                        val neigh4: MutableList<Int> = mutableListOf()
-
-                        neigh4.add(i)
-                        neigh4.add(j + 1)
-                        Log.i("Points", (i).toString() + "," + (j + 1).toString())
-                        point.add(neigh4)
-
-                    }
-                    row.add(point)
-                }
-                v.add(row)
-            }
-
+            map()
 
             for (i in 0 until v.size) {
                 val visvec: MutableList<Int> = mutableListOf()
                 for (j in 0 until v[i].size) {
-
                     visvec.add(0)
                 }
                 vis.add(visvec)
@@ -493,8 +393,6 @@ class PathFinder : AppCompatActivity() {
                     }
                 }
             }
-
-
             srcx = butsrcx
             srcy = butsrcy
             desx = butdesx
@@ -505,8 +403,8 @@ class PathFinder : AppCompatActivity() {
             job2.join()
 
             for (i in (dfsPath.size - 2) downTo 1) {
-                buttons[dfsPath[i][0]][dfsPath[i][1]].setInactiveImage(R.drawable.ic_box_green)
-                buttons[dfsPath[i][0]][dfsPath[i][1]].setActiveImage(R.drawable.ic_box_green)
+                buttons[dfsPath[i][0]][dfsPath[i][1]].setInactiveImage(R.drawable.ic_box_yellow)
+                buttons[dfsPath[i][0]][dfsPath[i][1]].setActiveImage(R.drawable.ic_box_yellow)
                 buttons[dfsPath[i][0]][dfsPath[i][1]].playAnimation()
                 delay(100)
 
@@ -551,168 +449,8 @@ class PathFinder : AppCompatActivity() {
     }
 
     private suspend fun bfs(){
-        for (i in 0..(sizeRow)) {
-            val row: MutableList<MutableList<MutableList<Int>>> = mutableListOf()
-            for (j in 0..(sizeColumn)) {
-                val point: MutableList<MutableList<Int>> = mutableListOf()
-                if (i == 0 && j == 0) {
-                    val neigh1: MutableList<Int> = mutableListOf()
-                    neigh1.add(i + 1)
-                    neigh1.add(j)
 
-                    point.add(neigh1)
-
-                    val neigh2: MutableList<Int> = mutableListOf()
-                    neigh2.add(i)
-                    neigh2.add(j + 1)
-
-                    point.add(neigh2)
-
-                } else if (i == sizeRow && j == 0) {
-                    val neigh1: MutableList<Int> = mutableListOf()
-                    neigh1.add(i - 1)
-                    neigh1.add(j)
-
-                    point.add(neigh1)
-
-                    val neigh2: MutableList<Int> = mutableListOf()
-                    neigh2.add(i)
-                    neigh2.add(j + 1)
-
-                    point.add(neigh2)
-
-                } else if (i == 0 && j == sizeColumn) {
-                    val neigh1: MutableList<Int> = mutableListOf()
-                    neigh1.add(i + 1)
-                    neigh1.add(j)
-
-                    point.add(neigh1)
-
-                    val neigh2: MutableList<Int> = mutableListOf()
-                    neigh2.add(i)
-                    neigh2.add(j - 1)
-
-                    point.add(neigh2)
-
-                } else if (i == sizeRow && j == sizeColumn) {
-                    val neigh1: MutableList<Int> = mutableListOf()
-                    neigh1.add(i - 1)
-                    neigh1.add(j)
-
-                    point.add(neigh1)
-                    val neigh2: MutableList<Int> = mutableListOf()
-
-                    neigh2.add(i)
-                    neigh2.add(j - 1)
-
-                    point.add(neigh2)
-
-                } else if (i == 0) {
-                    val neigh1: MutableList<Int> = mutableListOf()
-                    neigh1.add(i + 1)
-                    neigh1.add(j)
-
-                    point.add(neigh1)
-                    val neigh2: MutableList<Int> = mutableListOf()
-
-                    neigh2.add(i)
-                    neigh2.add(j - 1)
-
-                    point.add(neigh2)
-                    val neigh3: MutableList<Int> = mutableListOf()
-
-                    neigh3.add(i)
-                    neigh3.add(j + 1)
-
-                    point.add(neigh3)
-
-                } else if (i == sizeRow) {
-                    val neigh1: MutableList<Int> = mutableListOf()
-                    neigh1.add(i - 1)
-                    neigh1.add(j)
-
-                    point.add(neigh1)
-                    val neigh2: MutableList<Int> = mutableListOf()
-
-                    neigh2.add(i)
-                    neigh2.add(j - 1)
-
-                    point.add(neigh2)
-                    val neigh3: MutableList<Int> = mutableListOf()
-
-                    neigh3.add(i)
-                    neigh3.add(j + 1)
-
-                    point.add(neigh3)
-
-                } else if (j == 0) {
-                    val neigh1: MutableList<Int> = mutableListOf()
-                    neigh1.add(i - 1)
-                    neigh1.add(j)
-
-                    point.add(neigh1)
-
-                    val neigh2: MutableList<Int> = mutableListOf()
-                    neigh2.add(i + 1)
-                    neigh2.add(j)
-
-                    point.add(neigh2)
-                    val neigh3: MutableList<Int> = mutableListOf()
-
-                    neigh3.add(i)
-                    neigh3.add(j + 1)
-
-                    point.add(neigh3)
-
-                } else if (j == sizeColumn) {
-                    val neigh1: MutableList<Int> = mutableListOf()
-                    neigh1.add(i - 1)
-                    neigh1.add(j)
-
-                    point.add(neigh1)
-                    val neigh2: MutableList<Int> = mutableListOf()
-
-                    neigh2.add(i + 1)
-                    neigh2.add(j)
-
-                    point.add(neigh2)
-                    val neigh3: MutableList<Int> = mutableListOf()
-
-                    neigh3.add(i)
-                    neigh3.add(j - 1)
-
-                    point.add(neigh3)
-
-                } else {
-                    val neigh1: MutableList<Int> = mutableListOf()
-                    neigh1.add(i - 1)
-                    neigh1.add(j)
-
-                    point.add(neigh1)
-                    val neigh2: MutableList<Int> = mutableListOf()
-
-                    neigh2.add(i + 1)
-                    neigh2.add(j)
-
-                    point.add(neigh2)
-                    val neigh3: MutableList<Int> = mutableListOf()
-
-                    neigh3.add(i)
-                    neigh3.add(j - 1)
-                    point.add(neigh3)
-                    val neigh4: MutableList<Int> = mutableListOf()
-
-                    neigh4.add(i)
-                    neigh4.add(j + 1)
-
-                    point.add(neigh4)
-
-                }
-                row.add(point)
-            }
-            v.add(row)
-        }
-
+        map()
 
         for (i in 0 until v.size) {
             val row: MutableList<MutableList<MutableList<Int>>> = mutableListOf()
@@ -741,8 +479,6 @@ class PathFinder : AppCompatActivity() {
             bfsqueue.remove()
             val x = u.x
             val y = u.y
-            //   var d = u.d
-            //tester.append(x.toString()+" "+y.toString()+"\n")
             if ((x == desx) and (y == desy)) {
                 break
             }
@@ -766,7 +502,6 @@ class PathFinder : AppCompatActivity() {
                     tem.add(x)
                     tem.add(y)
                     path[v[x][y][i][0]][v[x][y][i][1]].add(tem)
-                    //   var dd: Int = dis[v[x][y][i][0]][v[x][y][i][1]]
                     val xx: Int = v[x][y][i][0]
                     val yy: Int = v[x][y][i][1]
                     val temp2 = Tuple2(0, xx, yy)
@@ -779,14 +514,12 @@ class PathFinder : AppCompatActivity() {
 
     private fun findPathBFS() {
         jobBFS = GlobalScope.launch(Dispatchers.Main) {
-         //   gridButtonActiveOrNot = 1
-
-            srcx = butsrcx
-            srcy = butsrcy
-            desx = butdesx
-            desy = butdesy
-            for (i in 0..sizeRow) {
-                val visvec: MutableList<Int> = mutableListOf()
+        srcx = butsrcx
+        srcy = butsrcy
+        desx = butdesx
+        desy = butdesy
+        for (i in 0..sizeRow) {
+            val visvec: MutableList<Int> = mutableListOf()
                 for (j in 0..sizeColumn) {
                     visvec.add(0)
                 }
@@ -806,10 +539,10 @@ class PathFinder : AppCompatActivity() {
             val pather = path
             for (i in 1 until pather[butdesx][butdesy].size) {
                 buttons[pather[butdesx][butdesy][i][0]][pather[butdesx][butdesy][i][1]].setInactiveImage(
-                    R.drawable.ic_box_green
+                    R.drawable.ic_box_yellow
                 )
                 buttons[pather[butdesx][butdesy][i][0]][pather[butdesx][butdesy][i][1]].setActiveImage(
-                    R.drawable.ic_box_green
+                    R.drawable.ic_box_yellow
                 )
                 buttons[pather[butdesx][butdesy][i][0]][pather[butdesx][butdesy][i][1]].playAnimation()
                 delay(200)
@@ -820,170 +553,9 @@ class PathFinder : AppCompatActivity() {
         }
     }
 
-    private suspend fun Dijkstra() {
-        for (i in 0..(sizeRow)) {
-            val row: MutableList<MutableList<MutableList<Int>>> = mutableListOf()
-            for (j in 0..(sizeColumn)) {
-                val point: MutableList<MutableList<Int>> = mutableListOf()
-                if (i == 0 && j == 0) {
-                    val neigh1: MutableList<Int> = mutableListOf()
-                    neigh1.add(i + 1)
-                    neigh1.add(j)
-                    neigh1.add(weight[i + 1][j])
-                    point.add(neigh1)
+    private suspend fun dijkstra() {
 
-                    val neigh2: MutableList<Int> = mutableListOf()
-                    neigh2.add(i)
-                    neigh2.add(j + 1)
-                    neigh2.add(weight[i][j + 1])
-                    point.add(neigh2)
-
-                } else if (i == sizeRow && j == 0) {
-                    val neigh1: MutableList<Int> = mutableListOf()
-                    neigh1.add(i - 1)
-                    neigh1.add(j)
-                    neigh1.add(weight[i - 1][j])
-                    point.add(neigh1)
-
-                    val neigh2: MutableList<Int> = mutableListOf()
-                    neigh2.add(i)
-                    neigh2.add(j + 1)
-                    neigh2.add(weight[i][j + 1])
-                    point.add(neigh2)
-
-                } else if (i == 0 && j == sizeColumn) {
-                    val neigh1: MutableList<Int> = mutableListOf()
-                    neigh1.add(i + 1)
-                    neigh1.add(j)
-                    neigh1.add(weight[i + 1][j])
-                    point.add(neigh1)
-
-                    val neigh2: MutableList<Int> = mutableListOf()
-                    neigh2.add(i)
-                    neigh2.add(j - 1)
-                    neigh2.add(weight[i][j - 1])
-                    point.add(neigh2)
-
-                } else if (i == sizeRow && j == sizeColumn) {
-                    val neigh1: MutableList<Int> = mutableListOf()
-                    neigh1.add(i - 1)
-                    neigh1.add(j)
-                    neigh1.add(weight[i - 1][j])
-                    point.add(neigh1)
-                    val neigh2: MutableList<Int> = mutableListOf()
-
-                    neigh2.add(i)
-                    neigh2.add(j - 1)
-                    neigh2.add(weight[i][j - 1])
-                    point.add(neigh2)
-
-                } else if (i == 0) {
-                    val neigh1: MutableList<Int> = mutableListOf()
-                    neigh1.add(i + 1)
-                    neigh1.add(j)
-                    neigh1.add(weight[i + 1][j])
-                    point.add(neigh1)
-                    val neigh2: MutableList<Int> = mutableListOf()
-
-                    neigh2.add(i)
-                    neigh2.add(j - 1)
-                    neigh2.add(weight[i][j - 1])
-                    point.add(neigh2)
-                    val neigh3: MutableList<Int> = mutableListOf()
-
-                    neigh3.add(i)
-                    neigh3.add(j + 1)
-                    neigh3.add(weight[i][j + 1])
-                    point.add(neigh3)
-
-                } else if (i == sizeRow) {
-                    val neigh1: MutableList<Int> = mutableListOf()
-                    neigh1.add(i - 1)
-                    neigh1.add(j)
-                    neigh1.add(weight[i - 1][j])
-                    point.add(neigh1)
-                    val neigh2: MutableList<Int> = mutableListOf()
-
-                    neigh2.add(i)
-                    neigh2.add(j - 1)
-                    neigh2.add(weight[i][j - 1])
-                    point.add(neigh2)
-                    val neigh3: MutableList<Int> = mutableListOf()
-
-                    neigh3.add(i)
-                    neigh3.add(j + 1)
-                    neigh3.add(weight[i][j + 1])
-                    point.add(neigh3)
-
-                } else if (j == 0) {
-                    val neigh1: MutableList<Int> = mutableListOf()
-                    neigh1.add(i - 1)
-                    neigh1.add(j)
-                    neigh1.add(weight[i - 1][j])
-                    point.add(neigh1)
-                    val neigh2: MutableList<Int> = mutableListOf()
-                    neigh2.add(i + 1)
-                    neigh2.add(j)
-                    neigh2.add(weight[i + 1][j])
-                    point.add(neigh2)
-                    val neigh3: MutableList<Int> = mutableListOf()
-
-                    neigh3.add(i)
-                    neigh3.add(j + 1)
-                    neigh3.add(weight[i][j + 1])
-                    point.add(neigh3)
-
-                } else if (j == sizeColumn) {
-                    val neigh1: MutableList<Int> = mutableListOf()
-                    neigh1.add(i - 1)
-                    neigh1.add(j)
-                    neigh1.add(weight[i - 1][j])
-                    point.add(neigh1)
-                    val neigh2: MutableList<Int> = mutableListOf()
-
-                    neigh2.add(i + 1)
-                    neigh2.add(j)
-                    neigh2.add(weight[i + 1][j])
-                    point.add(neigh2)
-                    val neigh3: MutableList<Int> = mutableListOf()
-
-                    neigh3.add(i)
-                    neigh3.add(j - 1)
-                    neigh3.add(weight[i][j - 1])
-                    point.add(neigh3)
-
-                } else {
-                    val neigh1: MutableList<Int> = mutableListOf()
-                    neigh1.add(i - 1)
-                    neigh1.add(j)
-                    neigh1.add(weight[i - 1][j])
-                    point.add(neigh1)
-                    val neigh2: MutableList<Int> = mutableListOf()
-
-                    neigh2.add(i + 1)
-                    neigh2.add(j)
-                    neigh2.add(weight[i + 1][j])
-                    point.add(neigh2)
-                    val neigh3: MutableList<Int> = mutableListOf()
-
-                    neigh3.add(i)
-                    neigh3.add(j - 1)
-                    neigh3.add(weight[i][j - 1])
-                    point.add(neigh3)
-                    val neigh4: MutableList<Int> = mutableListOf()
-
-                    neigh4.add(i)
-                    neigh4.add(j + 1)
-                    neigh4.add(weight[i][j + 1])
-                    point.add(neigh4)
-
-                }
-                row.add(point)
-            }
-            v.add(row)
-        }
-
-
+        map()
         for (i in 0 until v.size) {
             val row: MutableList<MutableList<MutableList<Int>>> = mutableListOf()
             for (j in 0 until v[i].size) {
@@ -1011,8 +583,6 @@ class PathFinder : AppCompatActivity() {
             pq.remove()
             val x = u.x
             val y = u.y
-
-            //tester.append(x.toString()+" "+y.toString()+"\n")
             if ((x == desx) and (y == desy)) {
                 break
             }
@@ -1048,10 +618,8 @@ class PathFinder : AppCompatActivity() {
     }
 
     @DelicateCoroutinesApi
-    private fun findPathdijkstra() {
+    private fun findPathDijkstra() {
         jobDIJKSTRA = GlobalScope.launch(Dispatchers.Main) {
-           // gridButtonActiveOrNot = 1
-            sized = sizeColumn + 1
             srcx = butsrcx
             srcy = butsrcy
             desx = butdesx
@@ -1062,24 +630,24 @@ class PathFinder : AppCompatActivity() {
             job2.join()
             for (i in 0..sizeRow) {
                 for (j in 0..sizeColumn) {
-                    if (buttonStatusKeeper[i].get(buttons[i][j]) == 1) {
+                    if (buttonStatusKeeper[i][buttons[i][j]] == 1) {
                         weight[i][j] = 1000
-                    } else if (buttonStatusKeeper[i].get(buttons[i][j]) == 2) {
+                    } else if (buttonStatusKeeper[i][buttons[i][j]] == 2) {
                         weight[i][j] = 5
                     }
                 }
             }
             val job1 = GlobalScope.launch(Dispatchers.Main) {
-                Dijkstra()
+                dijkstra()
             }
             job1.join()
             val pather = path
-            for (i in 1..(pather[butdesx][butdesy].size - 1)) {
+            for (i in 1 until pather[butdesx][butdesy].size) {
                 buttons[pather[butdesx][butdesy][i][0]][pather[butdesx][butdesy][i][1]].setInactiveImage(
-                    R.drawable.ic_box_green
+                    R.drawable.ic_box_yellow
                 )
                 buttons[pather[butdesx][butdesy][i][0]][pather[butdesx][butdesy][i][1]].setActiveImage(
-                    R.drawable.ic_box_green
+                    R.drawable.ic_box_yellow
                 )
                 buttons[pather[butdesx][butdesy][i][0]][pather[butdesx][butdesy][i][1]].playAnimation()
                 delay(200)
@@ -1090,6 +658,7 @@ class PathFinder : AppCompatActivity() {
             }
         }
     }
+
     private fun weightMaker() {
         for (i in 0..(sizeRow)) {
             val weightvec: MutableList<Int> = mutableListOf()
@@ -1101,28 +670,7 @@ class PathFinder : AppCompatActivity() {
     }
 
 
-    //UI code
-    private fun gradientDrawableValueSetter() {
-        gdForRedColor.setColor(Color.parseColor("#FF0000"))
-        gdForRedColor.cornerRadius = 10.0f
-        gdForRedColor.setStroke(1, Color.parseColor("#000000"))
 
-        gdForBrownColor.setColor(Color.parseColor("#A52A2A"))
-        gdForBrownColor.cornerRadius = 10.0f
-        gdForBrownColor.setStroke(1, Color.parseColor("#000000"))
-
-        gdForGreenColor.setColor(Color.parseColor("#008000"))
-        gdForGreenColor.cornerRadius = 10.0f
-        gdForGreenColor.setStroke(1, Color.parseColor("#000000"))
-
-        gdForWhiteColor.setColor(Color.parseColor("#FFFFFF"))
-        gdForWhiteColor.cornerRadius = 10.0f
-        gdForWhiteColor.setStroke(1, Color.parseColor("#000000"))
-
-        gdForBlueColor.setColor(Color.parseColor("#0000FF"))
-        gdForBlueColor.cornerRadius = 10.0f
-        gdForBlueColor.setStroke(1, Color.parseColor("#000000"))
-    }
 
     private fun createButtonGrid() {
         val screenLinearLayout = LinearLayout(this)
@@ -1179,12 +727,6 @@ class PathFinder : AppCompatActivity() {
                             sButton.setInactiveImage(R.drawable.ic_arrow_right_24)
                             startStatusKeeper = 1
                             buttonStatusRow[sButton] = 3
-                            Log.i(
-                                "buttonstatus",
-                                "BUTTON " + i.toString() + " " + j.toString() + "=" + buttonStatusRow.get(
-                                    sButton
-                                ).toString()
-                            )
                             butsrcx = i
                             butsrcy = j
 
@@ -1194,12 +736,6 @@ class PathFinder : AppCompatActivity() {
                             sButton.setInactiveImage(R.drawable.ic_baseline_gps_fixed_24)
                             endStatusKeeper = 1
                             buttonStatusRow[sButton] = 3
-                            Log.i(
-                                "buttonstatus",
-                                "BUTTON " + i.toString() + " " + j.toString() + "=" + buttonStatusRow.get(
-                                    sButton
-                                ).toString()
-                            )
                             butdesx = i
                             butdesy = j
                         } else {
@@ -1209,62 +745,26 @@ class PathFinder : AppCompatActivity() {
                                     when (buttonStatusRow[sButton]) {
                                         0 -> {
                                             buttonStatusRow[sButton] = 1
-                                            Log.i(
-                                                "buttonstatus",
-                                                "BUTTON " + i.toString() + " " + j.toString() + "=" + buttonStatusRow.get(
-                                                    sButton
-                                                ).toString()
-                                            )
                                         }
                                         1 -> {
                                             buttonStatusRow[sButton] = 0
-                                            Log.i(
-                                                "buttonstatus",
-                                                "BUTTON " + i.toString() + " " + j.toString() + "=" + buttonStatusRow.get(
-                                                    sButton
-                                                ).toString()
-                                            )
                                         }
                                         else -> {
                                             buttonStatusRow[sButton] = 0
-                                            Log.i(
-                                                "buttonstatus",
-                                                "BUTTON " + i.toString() + " " + j.toString() + "=" + buttonStatusRow.get(
-                                                    sButton
-                                                ).toString()
-                                            )
                                         }
                                     }
                                 } else {
                                     sButton.setActiveImage(R.drawable.ic_gymnastic)
-                                    val buttonStatus = buttonStatusRow.get(sButton)
+                                    val buttonStatus = buttonStatusRow[sButton]
                                     when (buttonStatus) {
                                         0 -> {
                                             buttonStatusRow[sButton] = 2
-                                            Log.i(
-                                                "buttonstatus",
-                                                "BUTTON " + i.toString() + " " + j.toString() + "=" + buttonStatusRow.get(
-                                                    sButton
-                                                ).toString()
-                                            )
                                         }
                                         2 -> {
-                                            buttonStatusRow.put(sButton, 0)
-                                            Log.i(
-                                                "buttonstatus",
-                                                "BUTTON " + i.toString() + " " + j.toString() + "=" + buttonStatusRow.get(
-                                                    sButton
-                                                ).toString()
-                                            )
+                                            buttonStatusRow[sButton] = 0
                                         }
                                         else -> {
                                             buttonStatusRow[sButton] = 0
-                                            Log.i(
-                                                "buttonstatus",
-                                                "BUTTON " + i.toString() + " " + j.toString() + "=" + buttonStatusRow.get(
-                                                    sButton
-                                                ).toString()
-                                            )
                                         }
                                     }
                                 }
@@ -1288,8 +788,8 @@ class PathFinder : AppCompatActivity() {
         }
     }
     private fun deleteMainScreen() {
-        val screenid = resources.getIdentifier("screen", "id", packageName)
-        val screen = findViewById<LinearLayout>(screenid)
+        val screenId = resources.getIdentifier("screen", "id", packageName)
+        val screen = findViewById<LinearLayout>(screenId)
         (screen.parent as ViewGroup).removeView(screen)
         buttons.removeAll(buttons)
         buttonStatusKeeper.removeAll(buttonStatusKeeper)
@@ -1304,7 +804,6 @@ class PathFinder : AppCompatActivity() {
         dis.removeAll(dis)
         path.removeAll(path)
         weight.removeAll(weight)
-        sized = 0
         srcx = 0
         srcy = 0
         desx = -1
@@ -1314,8 +813,6 @@ class PathFinder : AppCompatActivity() {
         dfsPath.removeAll(dfsPath)
         pq.removeAll(pq)
         bfsqueue.removeAll(bfsqueue)
-
-
     }
 
 }
