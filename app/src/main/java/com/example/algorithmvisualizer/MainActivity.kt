@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
         binding.cvPathFinding.setOnClickListener {
-            Intent(this,PathFinder::class.java).also {
+            Intent(this,PathFindingVisualizer::class.java).also {
                 startActivity(it)
             }
         }

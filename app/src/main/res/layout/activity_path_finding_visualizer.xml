@@ -1,0 +1,142 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PathFindingVisualizer"
+    android:background="@color/backgroundColor">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbPathFindingVisualizer"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:background="@color/toolBarColor"
+        android:fontFamily="@font/roboto"
+        app:title="PathFinding Visualizer"
+        app:titleTextColor="@color/textColor"
+        android:theme="@style/ToolbarTheme" />
+
+    <com.example.algorithmvisualizer.pathFinderGrid.PathFinderGrid
+        android:id="@+id/llPathFindingDisplay"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:layout_margin="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/tvClear"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tbPathFindingVisualizer">
+
+    </com.example.algorithmvisualizer.pathFinderGrid.PathFinderGrid>
+
+    <LinearLayout
+        android:id="@+id/llIntroText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tbPathFindingVisualizer"
+        app:layout_constraintBottom_toTopOf="@+id/tvGenerateGrid"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvHey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:text="Hey,"
+            android:textSize="50sp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/headingTextColor"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:id="@+id/tvIntroText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Why don't you start by generating a Grid!"
+            android:textColor="@color/textColor"
+            android:textSize="22sp" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/btnStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_expand_less"
+        app:tint="@color/textColor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="1dp"
+        android:paddingLeft="12dp"
+        android:layout_marginBottom="25dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+
+    <TextView
+        android:id="@+id/tvClear"
+        app:layout_constraintTop_toBottomOf="@id/llPathFindingDisplay"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/ivSort"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:layout_height="wrap_content"
+        android:textColor="@color/textColor"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:paddingBottom="15dp"
+        android:text="CLEAR"/>
+
+
+    <TextView
+        android:id="@+id/tvRedo"
+        app:layout_constraintTop_toBottomOf="@id/llPathFindingDisplay"
+        app:layout_constraintLeft_toRightOf="@+id/ivSort"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/textColor"
+        android:fontFamily="@font/roboto"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:paddingBottom="15dp"
+        android:text="MAZE"/>
+
+    <ImageView
+        android:id="@+id/ivSort"
+        app:layout_constraintTop_toBottomOf="@id/llPathFindingDisplay"
+        app:layout_constraintLeft_toRightOf="@id/tvClear"
+        app:layout_constraintRight_toLeftOf="@id/tvRedo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/ic_algo_play"
+        android:layout_width="wrap_content"
+        app:tint="@color/headingTextColor"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tvGenerateGrid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GENERATE GRID"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:fontFamily="@font/roboto"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@color/textColor"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:paddingBottom="15dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
